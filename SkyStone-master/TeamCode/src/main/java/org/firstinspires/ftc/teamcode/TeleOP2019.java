@@ -97,13 +97,7 @@ public class TeleOP2019 extends LinearOpMode {
     void shovelTrigger(double shovel_pos) {
         s5Shovel.setPosition(shovel_pos);
     }
-
-    void setmotorsPower(DcMotor motor1,DcMotor motor2, double power) {
-        motor1.setPower(power);
-        motor2.setPower(-power);
-
-    }
-
+    
     void setPowerTimed(DcMotor motor, double power, long milliseconds) {
         motor.setPower(power);
         sleep(milliseconds);
@@ -298,8 +292,6 @@ public class TeleOP2019 extends LinearOpMode {
                 }else{
                     m5Lift.setPower(podiem);
                 }
-                //m6Intake.setPower(-podiem*0.65);
-                //setmotorsPower(m5Lift,m6Intake, podiem*0.65);
             }else{m5Lift.setPower(0);}
 
             if(podiem!=0){
