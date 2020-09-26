@@ -23,13 +23,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "KTM TeleOp 2020", group = "Linear Opmode")
 
-@Disabled
-public class TeleOP2019 extends LinearOpMode {
+public class TeleOP2020 extends LinearOpMode {
     private static final int LED_CHANNEL = 5;
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor m6Intake = null;
-    private DcMotor m5Lift = null;
-    private Servo s5Shovel = null;
 
     //    cutting off the error of sliders values
     double errorCorrection(double input) {
@@ -39,66 +35,20 @@ public class TeleOP2019 extends LinearOpMode {
             return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
         }
     }
-    /*//переменные для ПИД
-    //int setpoint = 0;   // заданная величина, которую должен поддерживать регулятор
-    //double input = 0;      // сигнал с датчика (например температура, которую мы регулируем)
-    //double output = 0;     // выход с регулятора на управляющее устройство (например величина ШИМ или угол поворота серво)
-    double pidMin = 0;     // минимальный выход с регулятора
-    double pidMax = 255;   // максимальный выход с регулятора
-    // коэффициенты
-    double Kp = 0.0;
-    double Ki = 0.0;
-    double Kd = 1.2;
-    double _dt_s = 0.1; // время итерации в секундах//скорее всего получится выцепить из таймера
-    // вспомогательные переменные
-    double prevInput = 0;
-    double integral = 0.0;
 
-    //------------------
-    double computePID(double input,double prevInput, double setpoint, double time, double time1) {
-        double error = setpoint - input;           // ошибка регулирования
-        double delta_input = prevInput - input;    // изменение входного сигнала
-        prevInput = input;
-        double output = 0;
-        output += error * Kp;                  // пропорционально ошибке регулирования
-        double dt=time1-time;
-        output += delta_input * Kd / _dt_s;    // дифференциальная составляющая
-        integral += error * Ki * _dt_s;        // расчёт интегральной составляющей
-        // тут можно ограничить интегральную составляющую!
-        output += integral;                           // прибавляем интегральную составляющую
-        //output = constrain(output, pidMin, pidMax);   // ограничиваем выход
-        return output;
-    }*/
 
-    /*
-     * Functions declaration
-     */
-    //Lift claw
-    void liftClaw(double lift_power) {
-        m5Lift.setPower(lift_power);
-    }
-
-    void shovelTrigger(double shovel_pos) {
-        s5Shovel.setPosition(shovel_pos);
-    }
-
-    void setPowerTimed(DcMotor motor, double power, long milliseconds) {
+    void setMotorPowerTimed(DcMotor motor, double power, long milliseconds) {
         motor.setPower(power);
         sleep(milliseconds);
         motor.setPower(0);
-
     }
 
-    void setPowerTimed(CRServo Crservo, double power, long milliseconds) {
+    void setServoPowerTimed(CRServo Crservo, double power, long milliseconds) {
         Crservo.setPower(power);
         sleep(milliseconds);
         Crservo.setPower(0);
-
     }
 
-    /**
-     * End of functions declaration
-     */
     @Override
     public void runOpMode() {
 
@@ -204,8 +154,8 @@ public class TeleOP2019 extends LinearOpMode {
 //            double driveL = -gamepad1.left_stick_y;
 //            double driveR = -gamepad1.right_stick_y;
 //            float relic = gamepad2.left_stick_x;
-            boolean servo31 = gamepad1.y;
-            boolean servo32 = gamepad1.x;
+//            boolean servo31 = gamepad1.y;
+//            boolean servo32 = gamepad1.x;
             // boolean servomarker = ;
             boolean rouletteForward = gamepad2.dpad_up;
             boolean rouletteraBackward = gamepad2.dpad_down;
@@ -248,62 +198,6 @@ public class TeleOP2019 extends LinearOpMode {
             }
 
 
-            /*
-             * End of chassis related code.
-             */
-            double servo5;
-            //серво пишка
-            if (gamepad2.b) {
-                servor = 1.42;
-            }
-            //подъёмник
-            if (rising == 0) {
-                m5Lift.setPower(0);
-                m6Intake.setPower(0);
-            } else if (rising > 0) {
-                m5Lift.setPower(rising);
-                m6Intake.setPower(-rising);
-            } else {
-                m5Lift.setPower(rising);
-                m6Intake.setPower(-rising);
-            }
-            if (servor != 0) {
-                if (gamepad2.b) {
-                    s3Rotation.setPosition(servor);
-                } else {
-                    s3Rotation.setPosition(0.7 * servor);
-                }
-            } else {
-                s3Rotation.setPosition(0.7 * servor);
-            }
-            // if(zahvatcube){s3Rotation.setPosition(1);}else{s3Rotation.setPosition(0);}
-            //тяпка:
-            if (servo_tyapka_verh) {
-                s4Kicker.setPosition(1);
-            }
-            if (servo_tyapka_niz) {
-                s4Kicker.setPosition(0);
-            }
-            // if(servo_tyapka>=0){s4Kicker.setPosition(servo_tyapka);}
-
-            //крюки на захват фундамента:
-            if (servo32) {
-                    s5Shovel.setPosition(0);
-            }
-            if (servo31) {
-                    s5Shovel.setPosition(0.45);
-                }
-            //ruletka
-            if (rouletteraBackward) {
-                m7ruletka.setPower(1);
-            } else {
-                m7ruletka.setPower(0);
-            }
-            if (rouletteForward) {
-                m7ruletka.setPower(-1);
-            } else {
-                m7ruletka.setPower(0);
-            }
             if (gamepad1.dpad_up) {
                 m1DrivePowerfordrivetofoundation11 = 0.2;
                 m2DrivePowerfordrivetofoundation11 = -0.2;
