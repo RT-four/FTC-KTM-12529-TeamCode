@@ -59,7 +59,6 @@ public void runOpMode() {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-        // Chassis
         DcMotor m1Drive = hardwareMap.get(DcMotor.class, "m1 drive");
         DcMotor m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
         DcMotor m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
@@ -68,26 +67,12 @@ public void runOpMode() {
         DcMotor m6Intake = hardwareMap.get(DcMotor.class, "m6 intake");
         DcMotor m7ruletka = hardwareMap.get(DcMotor.class, "m7 rul");
         CRServo s1RelicExtRet = hardwareMap.get(CRServo.class, "s1 top claw");
-        //s2_bottom_Claw = hardwareMap.get(CRServo.class, "s2 bottom claw");
         Servo s3Rotation = hardwareMap.get(Servo.class, "s3 rotation");
         Servo s4Kicker = hardwareMap.get(Servo.class, "s4 kick");
         Servo s5Shovel = hardwareMap.get(Servo.class, "s5 shovel");
         Servo s6RelicClaw = hardwareMap.get(Servo.class, "s6 relic claw");
         Servo s7RelicArm = hardwareMap.get(Servo.class, "s7 relic arm");
-        //DistanceSensor DistanceSensor_left = hardwareMap.get(DistanceSensor.class,"dist left");
-        //DistanceSensor DistanceSensor_right = hardwareMap.get(DistanceSensor.class,"dist right");
-        //DistanceSensor DistanceSensor_back = hardwareMap.get(DistanceSensor.class,"dist back");
-        //DistanceSensor DistanceSensor_forward = hardwareMap.get(DistanceSensor.class,"dist forward");
-        //BNO055IMU imu;
-        //Orientation angles;
-        //BNO055IMU.Parameters parametrs = new BNO055IMU.Parameters();
-        //parametrs.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        //imu = hardwareMap.get(BNO055IMU.class, "imu rev");
-        //imu.initialize(parametrs);
-        //sensor
-        //TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "sensor touch");
 
-        //-------
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         m1Drive.setDirection(DcMotor.Direction.FORWARD);
@@ -96,13 +81,13 @@ public void runOpMode() {
         m4Drive.setDirection(DcMotor.Direction.FORWARD);
         m5Lift.setDirection(DcMotor.Direction.FORWARD);
         m6Intake.setDirection(DcMotor.Direction.FORWARD);
-        //DcMotor m6Intake=hardwareMap.dcMotor.get("m6Intake");
         m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -110,95 +95,60 @@ public void runOpMode() {
         double m2DrivePower;
         double m3DrivePower;
         double m4DrivePower;
-        double m5LiftPower;
-        double m6IntakePower;
-        double m1DrivePowerforrotation = 0;
-        double m2DrivePowerforrotation = 0;
-        double m3DrivePowerforrotation = 0;
-        double m4DrivePowerforrotation = 0;
-        double m1DrivePowerfordrivetofoundation = 0;
-        double m2DrivePowerfordrivetofoundation = 0;
-        double m3DrivePowerfordrivetofoundation = 0;
-        double m4DrivePowerfordrivetofoundation = 0;
-        double m1DrivePowerfordrivetofoundation1 = 0;
-        double m2DrivePowerfordrivetofoundation1 = 0;
-        double m3DrivePowerfordrivetofoundation1 = 0;
-        double m4DrivePowerfordrivetofoundation1 = 0;
+        double m1DrivePowerfordrivetofoundation1  = 0;
+        double m2DrivePowerfordrivetofoundation1  = 0;
+        double m3DrivePowerfordrivetofoundation1  = 0;
+        double m4DrivePowerfordrivetofoundation1  = 0;
         double m1DrivePowerfordrivetofoundation11 = 0;
         double m2DrivePowerfordrivetofoundation11 = 0;
         double m3DrivePowerfordrivetofoundation11 = 0;
         double m4DrivePowerfordrivetofoundation11 = 0;
-        double m1DrivePowerfordrivetofoundation2 = 0;
-        double m2DrivePowerfordrivetofoundation2 = 0;
-        double m3DrivePowerfordrivetofoundation2 = 0;
-        double m4DrivePowerfordrivetofoundation2 = 0;
+        double m1DrivePowerfordrivetofoundation2  = 0;
+        double m2DrivePowerfordrivetofoundation2  = 0;
+        double m3DrivePowerfordrivetofoundation2  = 0;
+        double m4DrivePowerfordrivetofoundation2  = 0;
         double m1DrivePowerfordrivetofoundation22 = 0;
         double m2DrivePowerfordrivetofoundation22 = 0;
         double m3DrivePowerfordrivetofoundation22 = 0;
         double m4DrivePowerfordrivetofoundation22 = 0;
-        double a = 0;
-        double b = 0;
-        double prevangel = 0;
 
         while (opModeIsActive()) {
+                double triggerLeft  = 0.7 * gamepad1.left_trigger;
+                double triggerRight = 0.7 * -gamepad1.right_trigger;
+                double leftStickY   = gamepad1.left_stick_y;
+                double leftStickX   = -gamepad1.left_stick_x;
+                double rotation     = 0.7 * gamepad1.right_stick_x;
+                double dpadUp       = gamepad1.dpad_up;
+                double dpadRight    = gamepad1.dpad_right;
+                double dpadLeft     = gamepad1.dpad_up;
+                double dpadDown     = gamepad1.dpad_down;
 
-//int ANDYMARK_TICKS_PER_REV = 1120;
-                /*
-                 * Chassis movement
-                 */
-                //Setup a variable for each drive wheel to save power level for telemetry
+                triggerLeft = errorCorrection(triggerLeft);
+                riggerRight = errorCorrection(triggerRight);
+                leftStickX  = errorCorrection(leftStickX);
+                leftStickY  = errorCorrection(leftStickY);
+                rotation    = errorCorrection(rotation);
 
+                m2DrivePower  = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + rotation - leftStickY - (triggerLeft + triggerRight + rotation);
+                m4DrivePower  = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + rotation + leftStickY - (triggerLeft + triggerRight + rotation);
+                m1DrivePower  = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + rotation + leftStickY + (triggerLeft + triggerRight + rotation);
+                m3DrivePower  = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + rotation - leftStickY + (triggerLeft + triggerRight + rotation);
+                double max    = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
 
-                // POV Mode uses right stick to go forward and right to slide.
-                // - This uses basic math to combine motions and is easier to drive straight.
-//            double driveL = -gamepad1.left_stick_y;
-//            double driveR = -gamepad1.right_stick_y;
-//            float relic = gamepad2.left_stick_x;
-//            boolean servo31 = gamepad1.y;
-//            boolean servo32 = gamepad1.x;
-                // boolean servomarker = ;
-                boolean rouletteForward = gamepad2.dpad_up;
-                boolean rouletteraBackward = gamepad2.dpad_down;
-                double rising = gamepad2.left_stick_y;
-                boolean servocupstone = gamepad2.dpad_down;
-                boolean servo_tyapka_verh = gamepad2.y;
-                boolean servo_tyapka_niz = gamepad2.a;
-                double servo_tyapka = gamepad2.right_trigger;
-                // double servor = gamepad2.right_trigger;
-                double servor = gamepad2.right_trigger;
-                double slideL = 0.7 * gamepad1.left_trigger;
-                double slideR = 0.7 * -gamepad1.right_trigger;
-                double vpernazad = gamepad1.left_stick_y;
-                double vleovpravo = -gamepad1.left_stick_x;
-                double povorot = 0.7 * gamepad1.right_stick_x;
-                boolean zahvatcube = gamepad2.y;
-                //DeviceInterfaceModule cdim = hardwareMap.deviceInterfaceModule.get("dim");
-                //Slide Related
-                slideL = errorCorrection(slideL);
-                slideR = errorCorrection(slideR);
-                povorot = errorCorrection(povorot);
-                vpernazad = errorCorrection(vpernazad);
-                m2DrivePower = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + povorot - vpernazad - (slideL + slideR + vleovpravo);
-                m4DrivePower = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + povorot + vpernazad - (slideL + slideR + vleovpravo);
-                m1DrivePower = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + povorot + vpernazad + (slideL + slideR + vleovpravo);
-                m3DrivePower = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + povorot - vpernazad + (slideL + slideR + vleovpravo);
-                double mochs = 1;
-                double max = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
-                // Send calculated power to wheelsв
                 if (max >= 1) {
-                        m1Drive.setPower(mochs * m1DrivePower * 1 / max);
-                        m2Drive.setPower(mochs * m2DrivePower * 1 / max);
-                        m3Drive.setPower(mochs * m3DrivePower * 1 / max);
-                        m4Drive.setPower(mochs * m4DrivePower * 1 / max);
+                        m1Drive.setPower(m1DrivePower / max);
+                        m2Drive.setPower(m2DrivePower / max);
+                        m3Drive.setPower(m3DrivePower / max);
+                        m4Drive.setPower(m4DrivePower / max);
                 } else {
-                        m1Drive.setPower(mochs * m1DrivePower * 1);
-                        m2Drive.setPower(mochs * m2DrivePower * 1);
-                        m3Drive.setPower(mochs * m3DrivePower * 1);
-                        m4Drive.setPower(mochs * m4DrivePower * 1);
+                        m1Drive.setPower(m1DrivePower);
+                        m2Drive.setPower(m2DrivePower);
+                        m3Drive.setPower(m3DrivePower);
+                        m4Drive.setPower(m4DrivePower);
                 }
 
 
-                if (gamepad1.dpad_up) {
+                if (dpadUp) {
                         m1DrivePowerfordrivetofoundation11 = 0.2;
                         m2DrivePowerfordrivetofoundation11 = -0.2;
                         m3DrivePowerfordrivetofoundation11 = -0.2;
@@ -209,7 +159,7 @@ public void runOpMode() {
                         m3DrivePowerfordrivetofoundation11 = 0;
                         m4DrivePowerfordrivetofoundation11 = 0;
                 }
-                if (gamepad1.dpad_down) {
+                if (dpadDown) {
                         m1DrivePowerfordrivetofoundation1 = -0.2;
                         m2DrivePowerfordrivetofoundation1 = 0.2;
                         m3DrivePowerfordrivetofoundation1 = 0.2;
@@ -220,8 +170,7 @@ public void runOpMode() {
                         m3DrivePowerfordrivetofoundation1 = 0;
                         m4DrivePowerfordrivetofoundation1 = 0;
                 }
-
-                if (gamepad1.dpad_left) {
+                if (dpadLeft) {
                         m1DrivePowerfordrivetofoundation2 = -0.33;
                         m2DrivePowerfordrivetofoundation2 = -0.33;
                         m3DrivePowerfordrivetofoundation2 = 0.33;
@@ -232,7 +181,7 @@ public void runOpMode() {
                         m3DrivePowerfordrivetofoundation2 = 0;
                         m4DrivePowerfordrivetofoundation2 = 0;
                 }
-                if (gamepad1.dpad_right) {
+                if (dpadRight) {
                         m1DrivePowerfordrivetofoundation22 = 0.33;
                         m2DrivePowerfordrivetofoundation22 = 0.33;
                         m3DrivePowerfordrivetofoundation22 = -0.33;
@@ -243,18 +192,11 @@ public void runOpMode() {
                         m3DrivePowerfordrivetofoundation22 = 0;
                         m4DrivePowerfordrivetofoundation22 = 0;
                 }
-                //s5Shovel.setPosition(0);
-                // Show the elapsed game time and wheel power.
-                telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("a: ", a);
-                telemetry.addData("b: ", b);
-                //telemetry.addData("angleofrotate", angles.firstAngle);
-                telemetry.addData("previnput", prevangel);
-                //telemetry.addData("Distance left: ", DistanceSensor_left.getDistance(DistanceUnit.CM));
-                telemetry.addData("Motors", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePower, m2DrivePower, m3DrivePower, m4DrivePower);
-                telemetry.addData("Motors power for rotation", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePowerforrotation, m2DrivePowerforrotation, m3DrivePowerforrotation, m4DrivePowerforrotation);
+
+
+                telemetry.addData("Status:", "Run Time: " + runtime.toString());
+                telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePower, m2DrivePower, m3DrivePower, m4DrivePower);
                 telemetry.update();
-                //cdim.setDigitalChannelState(LED_CHANNEL, false);
         }
 }
 }
