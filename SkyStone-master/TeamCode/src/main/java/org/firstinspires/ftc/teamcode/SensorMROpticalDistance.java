@@ -45,10 +45,10 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 //@Disabled
 public class SensorMROpticalDistance extends LinearOpMode {
 
-    OpticalDistanceSensor odsSensor;  // Hardware Device Object
+OpticalDistanceSensor odsSensor;      // Hardware Device Object
 
-    @Override
-    public void runOpMode() {
+@Override
+public void runOpMode() {
 
         // get a reference to our Light Sensor object.
         //odsSensor = hardwareMap.get(OpticalDistanceSensor.class, "sensor_ods");
@@ -60,11 +60,11 @@ public class SensorMROpticalDistance extends LinearOpMode {
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
 
-            // send the info back to driver station using telemetry function.
-           // telemetry.addData("Raw", odsSensor.getRawLightDetected());
-            //telemetry.addData("Normal", odsSensor.getLightDetected());
+                // send the info back to driver station using telemetry function.
+                // telemetry.addData("Raw", odsSensor.getRawLightDetected());
+                //telemetry.addData("Normal", odsSensor.getLightDetected());
 
-            telemetry.update();
+                telemetry.update();
         }
-    }
+}
 }

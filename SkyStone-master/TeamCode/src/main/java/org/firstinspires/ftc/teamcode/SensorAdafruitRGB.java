@@ -68,14 +68,14 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 // Comment this out to add to the opmode list
 public class SensorAdafruitRGB extends LinearOpMode {
 
-    // we assume that the LED pin of the RGB sensor is connected to
-    // digital port 5 (zero indexed).
-    static final int LED_CHANNEL = 5;
-    ColorSensor sensorRGB;
-    DeviceInterfaceModule cdim;
+// we assume that the LED pin of the RGB sensor is connected to
+// digital port 5 (zero indexed).
+static final int LED_CHANNEL = 5;
+ColorSensor sensorRGB;
+DeviceInterfaceModule cdim;
 
-    @Override
-    public void runOpMode() {
+@Override
+public void runOpMode() {
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -111,39 +111,39 @@ public class SensorAdafruitRGB extends LinearOpMode {
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
 
-            // check the status of the x button on gamepad.
-            bCurrState = true;
+                // check the status of the x button on gamepad.
+                bCurrState = true;
 
-            // check for button-press state transitions.
+                // check for button-press state transitions.
 
 
                 // button is transitioning to a pressed state. Toggle the LED.
                 bLedOn = true;
                 cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
 
-            // update previous state variable.
-            bPrevState = bCurrState;
+                // update previous state variable.
+                bPrevState = bCurrState;
 
 
-            // send the info back to driver station using telemetry function.
-            Color.RGBToHSV((sensorRGB.red() * 255) / 800, (sensorRGB.green() * 255) / 800, (sensorRGB.blue() * 255) / 800, hsvValues);
+                // send the info back to driver station using telemetry function.
+                Color.RGBToHSV((sensorRGB.red() * 255) / 800, (sensorRGB.green() * 255) / 800, (sensorRGB.blue() * 255) / 800, hsvValues);
 
-            double hue = hsvValues[0];
-            if (hue > 200 && hue < 260) {
-                telemetry.addData("Color-->", "Blue");
-            } else if (hue < 50 || hue > 330) {
-                telemetry.addData("Color-->", "red");
-            }
+                double hue = hsvValues[0];
+                if (hue > 200 && hue < 260) {
+                        telemetry.addData("Color-->", "Blue");
+                } else if (hue < 50 || hue > 330) {
+                        telemetry.addData("Color-->", "red");
+                }
 
 
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("Clear", sensorRGB.alpha());
-            telemetry.addData("Red  ", sensorRGB.red());
-            telemetry.addData("Green", sensorRGB.green());
-            telemetry.addData("Blue ", sensorRGB.blue());
-            telemetry.addData("Hue", hsvValues[0]);
+                // send the info back to driver station using telemetry function.
+                telemetry.addData("Clear", sensorRGB.alpha());
+                telemetry.addData("Red  ", sensorRGB.red());
+                telemetry.addData("Green", sensorRGB.green());
+                telemetry.addData("Blue ", sensorRGB.blue());
+                telemetry.addData("Hue", hsvValues[0]);
 
-            telemetry.update();
+                telemetry.update();
         }
-    }
+}
 }

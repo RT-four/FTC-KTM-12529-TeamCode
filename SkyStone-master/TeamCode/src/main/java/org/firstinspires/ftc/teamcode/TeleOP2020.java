@@ -24,33 +24,33 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @TeleOp(name = "KTM TeleOp 2020", group = "Linear Opmode")
 
 public class TeleOP2020 extends LinearOpMode {
-    private static final int LED_CHANNEL = 5;
-    private ElapsedTime runtime = new ElapsedTime();
+private static final int LED_CHANNEL = 5;
+private ElapsedTime runtime = new ElapsedTime();
 
-    //    cutting off the error of sliders values
-    double errorCorrection(double input) {
+//    cutting off the error of sliders values
+double errorCorrection(double input) {
         if (Math.abs(input) < 0.02) {
-            return null;
+                return null;
         } else {
-            return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
+                return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
         }
-    }
+}
 
 
-    void setMotorPowerTimed(DcMotor motor, double power, long milliseconds) {
+void setMotorPowerTimed(DcMotor motor, double power, long milliseconds) {
         motor.setPower(power);
         sleep(milliseconds);
         motor.setPower(0);
-    }
+}
 
-    void setServoPowerTimed(CRServo Crservo, double power, long milliseconds) {
+void setServoPowerTimed(CRServo Crservo, double power, long milliseconds) {
         Crservo.setPower(power);
         sleep(milliseconds);
         Crservo.setPower(0);
-    }
+}
 
-    @Override
-    public void runOpMode() {
+@Override
+public void runOpMode() {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -143,118 +143,118 @@ public class TeleOP2020 extends LinearOpMode {
         while (opModeIsActive()) {
 
 //int ANDYMARK_TICKS_PER_REV = 1120;
-            /*
-             * Chassis movement
-             */
-            //Setup a variable for each drive wheel to save power level for telemetry
+                /*
+                 * Chassis movement
+                 */
+                //Setup a variable for each drive wheel to save power level for telemetry
 
 
-            // POV Mode uses right stick to go forward and right to slide.
-            // - This uses basic math to combine motions and is easier to drive straight.
+                // POV Mode uses right stick to go forward and right to slide.
+                // - This uses basic math to combine motions and is easier to drive straight.
 //            double driveL = -gamepad1.left_stick_y;
 //            double driveR = -gamepad1.right_stick_y;
 //            float relic = gamepad2.left_stick_x;
 //            boolean servo31 = gamepad1.y;
 //            boolean servo32 = gamepad1.x;
-            // boolean servomarker = ;
-            boolean rouletteForward = gamepad2.dpad_up;
-            boolean rouletteraBackward = gamepad2.dpad_down;
-            double rising = gamepad2.left_stick_y;
-            boolean servocupstone = gamepad2.dpad_down;
-            boolean servo_tyapka_verh = gamepad2.y;
-            boolean servo_tyapka_niz = gamepad2.a;
-            double servo_tyapka = gamepad2.right_trigger;
-            // double servor = gamepad2.right_trigger;
-            double servor = gamepad2.right_trigger;
-            double slideL = 0.7 * gamepad1.left_trigger;
-            double slideR = 0.7 * -gamepad1.right_trigger;
-            double vpernazad = gamepad1.left_stick_y;
-            double vleovpravo = -gamepad1.left_stick_x;
-            double povorot = 0.7 * gamepad1.right_stick_x;
-            boolean zahvatcube = gamepad2.y;
-            //DeviceInterfaceModule cdim = hardwareMap.deviceInterfaceModule.get("dim");
-            //Slide Related
-            slideL = errorCorrection(slideL);
-            slideR = errorCorrection(slideR);
-            povorot = errorCorrection(povorot);
-            vpernazad = errorCorrection(vpernazad);
-            m2DrivePower = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + povorot - vpernazad - (slideL + slideR + vleovpravo);
-            m4DrivePower = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + povorot + vpernazad - (slideL + slideR + vleovpravo);
-            m1DrivePower = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + povorot + vpernazad + (slideL + slideR + vleovpravo);
-            m3DrivePower = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + povorot - vpernazad + (slideL + slideR + vleovpravo);
-            double mochs = 1;
-            double max = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
-            // Send calculated power to wheelsв
-            if (max >= 1) {
-                m1Drive.setPower(mochs * m1DrivePower * 1 / max);
-                m2Drive.setPower(mochs * m2DrivePower * 1 / max);
-                m3Drive.setPower(mochs * m3DrivePower * 1 / max);
-                m4Drive.setPower(mochs * m4DrivePower * 1 / max);
-            } else {
-                m1Drive.setPower(mochs * m1DrivePower * 1);
-                m2Drive.setPower(mochs * m2DrivePower * 1);
-                m3Drive.setPower(mochs * m3DrivePower * 1);
-                m4Drive.setPower(mochs * m4DrivePower * 1);
-            }
+                // boolean servomarker = ;
+                boolean rouletteForward = gamepad2.dpad_up;
+                boolean rouletteraBackward = gamepad2.dpad_down;
+                double rising = gamepad2.left_stick_y;
+                boolean servocupstone = gamepad2.dpad_down;
+                boolean servo_tyapka_verh = gamepad2.y;
+                boolean servo_tyapka_niz = gamepad2.a;
+                double servo_tyapka = gamepad2.right_trigger;
+                // double servor = gamepad2.right_trigger;
+                double servor = gamepad2.right_trigger;
+                double slideL = 0.7 * gamepad1.left_trigger;
+                double slideR = 0.7 * -gamepad1.right_trigger;
+                double vpernazad = gamepad1.left_stick_y;
+                double vleovpravo = -gamepad1.left_stick_x;
+                double povorot = 0.7 * gamepad1.right_stick_x;
+                boolean zahvatcube = gamepad2.y;
+                //DeviceInterfaceModule cdim = hardwareMap.deviceInterfaceModule.get("dim");
+                //Slide Related
+                slideL = errorCorrection(slideL);
+                slideR = errorCorrection(slideR);
+                povorot = errorCorrection(povorot);
+                vpernazad = errorCorrection(vpernazad);
+                m2DrivePower = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + povorot - vpernazad - (slideL + slideR + vleovpravo);
+                m4DrivePower = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + povorot + vpernazad - (slideL + slideR + vleovpravo);
+                m1DrivePower = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + povorot + vpernazad + (slideL + slideR + vleovpravo);
+                m3DrivePower = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + povorot - vpernazad + (slideL + slideR + vleovpravo);
+                double mochs = 1;
+                double max = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
+                // Send calculated power to wheelsв
+                if (max >= 1) {
+                        m1Drive.setPower(mochs * m1DrivePower * 1 / max);
+                        m2Drive.setPower(mochs * m2DrivePower * 1 / max);
+                        m3Drive.setPower(mochs * m3DrivePower * 1 / max);
+                        m4Drive.setPower(mochs * m4DrivePower * 1 / max);
+                } else {
+                        m1Drive.setPower(mochs * m1DrivePower * 1);
+                        m2Drive.setPower(mochs * m2DrivePower * 1);
+                        m3Drive.setPower(mochs * m3DrivePower * 1);
+                        m4Drive.setPower(mochs * m4DrivePower * 1);
+                }
 
 
-            if (gamepad1.dpad_up) {
-                m1DrivePowerfordrivetofoundation11 = 0.2;
-                m2DrivePowerfordrivetofoundation11 = -0.2;
-                m3DrivePowerfordrivetofoundation11 = -0.2;
-                m4DrivePowerfordrivetofoundation11 = 0.2;
-            } else {
-                m1DrivePowerfordrivetofoundation11 = 0;
-                m2DrivePowerfordrivetofoundation11 = 0;
-                m3DrivePowerfordrivetofoundation11 = 0;
-                m4DrivePowerfordrivetofoundation11 = 0;
-            }
-            if (gamepad1.dpad_down) {
-                m1DrivePowerfordrivetofoundation1 = -0.2;
-                m2DrivePowerfordrivetofoundation1 = 0.2;
-                m3DrivePowerfordrivetofoundation1 = 0.2;
-                m4DrivePowerfordrivetofoundation1 = -0.2;
-            } else {
-                m1DrivePowerfordrivetofoundation1 = 0;
-                m2DrivePowerfordrivetofoundation1 = 0;
-                m3DrivePowerfordrivetofoundation1 = 0;
-                m4DrivePowerfordrivetofoundation1 = 0;
-            }
+                if (gamepad1.dpad_up) {
+                        m1DrivePowerfordrivetofoundation11 = 0.2;
+                        m2DrivePowerfordrivetofoundation11 = -0.2;
+                        m3DrivePowerfordrivetofoundation11 = -0.2;
+                        m4DrivePowerfordrivetofoundation11 = 0.2;
+                } else {
+                        m1DrivePowerfordrivetofoundation11 = 0;
+                        m2DrivePowerfordrivetofoundation11 = 0;
+                        m3DrivePowerfordrivetofoundation11 = 0;
+                        m4DrivePowerfordrivetofoundation11 = 0;
+                }
+                if (gamepad1.dpad_down) {
+                        m1DrivePowerfordrivetofoundation1 = -0.2;
+                        m2DrivePowerfordrivetofoundation1 = 0.2;
+                        m3DrivePowerfordrivetofoundation1 = 0.2;
+                        m4DrivePowerfordrivetofoundation1 = -0.2;
+                } else {
+                        m1DrivePowerfordrivetofoundation1 = 0;
+                        m2DrivePowerfordrivetofoundation1 = 0;
+                        m3DrivePowerfordrivetofoundation1 = 0;
+                        m4DrivePowerfordrivetofoundation1 = 0;
+                }
 
-            if (gamepad1.dpad_left) {
-                m1DrivePowerfordrivetofoundation2 = -0.33;
-                m2DrivePowerfordrivetofoundation2 = -0.33;
-                m3DrivePowerfordrivetofoundation2 = 0.33;
-                m4DrivePowerfordrivetofoundation2 = 0.33;
-            } else {
-                m1DrivePowerfordrivetofoundation2 = 0;
-                m2DrivePowerfordrivetofoundation2 = 0;
-                m3DrivePowerfordrivetofoundation2 = 0;
-                m4DrivePowerfordrivetofoundation2 = 0;
-            }
-            if (gamepad1.dpad_right) {
-                m1DrivePowerfordrivetofoundation22 = 0.33;
-                m2DrivePowerfordrivetofoundation22 = 0.33;
-                m3DrivePowerfordrivetofoundation22 = -0.33;
-                m4DrivePowerfordrivetofoundation22 = -0.33;
-            } else {
-                m1DrivePowerfordrivetofoundation22 = 0;
-                m2DrivePowerfordrivetofoundation22 = 0;
-                m3DrivePowerfordrivetofoundation22 = 0;
-                m4DrivePowerfordrivetofoundation22 = 0;
-            }
-            //s5Shovel.setPosition(0);
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("a: ", a);
-            telemetry.addData("b: ", b);
-            //telemetry.addData("angleofrotate", angles.firstAngle);
-            telemetry.addData("previnput", prevangel);
-            //telemetry.addData("Distance left: ", DistanceSensor_left.getDistance(DistanceUnit.CM));
-            telemetry.addData("Motors", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePower, m2DrivePower, m3DrivePower, m4DrivePower);
-            telemetry.addData("Motors power for rotation", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePowerforrotation, m2DrivePowerforrotation, m3DrivePowerforrotation, m4DrivePowerforrotation);
-            telemetry.update();
-            //cdim.setDigitalChannelState(LED_CHANNEL, false);
+                if (gamepad1.dpad_left) {
+                        m1DrivePowerfordrivetofoundation2 = -0.33;
+                        m2DrivePowerfordrivetofoundation2 = -0.33;
+                        m3DrivePowerfordrivetofoundation2 = 0.33;
+                        m4DrivePowerfordrivetofoundation2 = 0.33;
+                } else {
+                        m1DrivePowerfordrivetofoundation2 = 0;
+                        m2DrivePowerfordrivetofoundation2 = 0;
+                        m3DrivePowerfordrivetofoundation2 = 0;
+                        m4DrivePowerfordrivetofoundation2 = 0;
+                }
+                if (gamepad1.dpad_right) {
+                        m1DrivePowerfordrivetofoundation22 = 0.33;
+                        m2DrivePowerfordrivetofoundation22 = 0.33;
+                        m3DrivePowerfordrivetofoundation22 = -0.33;
+                        m4DrivePowerfordrivetofoundation22 = -0.33;
+                } else {
+                        m1DrivePowerfordrivetofoundation22 = 0;
+                        m2DrivePowerfordrivetofoundation22 = 0;
+                        m3DrivePowerfordrivetofoundation22 = 0;
+                        m4DrivePowerfordrivetofoundation22 = 0;
+                }
+                //s5Shovel.setPosition(0);
+                // Show the elapsed game time and wheel power.
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+                telemetry.addData("a: ", a);
+                telemetry.addData("b: ", b);
+                //telemetry.addData("angleofrotate", angles.firstAngle);
+                telemetry.addData("previnput", prevangel);
+                //telemetry.addData("Distance left: ", DistanceSensor_left.getDistance(DistanceUnit.CM));
+                telemetry.addData("Motors", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePower, m2DrivePower, m3DrivePower, m4DrivePower);
+                telemetry.addData("Motors power for rotation", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePowerforrotation, m2DrivePowerforrotation, m3DrivePowerforrotation, m4DrivePowerforrotation);
+                telemetry.update();
+                //cdim.setDigitalChannelState(LED_CHANNEL, false);
         }
-    }
+}
 }

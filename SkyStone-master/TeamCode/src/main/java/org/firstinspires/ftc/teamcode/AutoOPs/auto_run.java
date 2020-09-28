@@ -6,10 +6,10 @@ import org.firstinspires.ftc.teamcode.robot;
 @Autonomous(name= "auto_run", group="AutoOP")
 //@Disabled//comment out this line before using
 public class auto_run extends robot {
-    private ElapsedTime runtime = new ElapsedTime();
+private ElapsedTime runtime = new ElapsedTime();
 
-    @Override
-    public void runOpMode() {
+@Override
+public void runOpMode() {
         initHW(hardwareMap);
         //  wow.init(hardwareMap);
         s5Shovel.setPosition(0);
@@ -31,5 +31,5 @@ public class auto_run extends robot {
         sleep(500);
 
 
-    }
+}
 }
