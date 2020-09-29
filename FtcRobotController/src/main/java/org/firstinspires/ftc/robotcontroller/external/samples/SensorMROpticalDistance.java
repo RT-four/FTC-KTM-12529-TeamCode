@@ -52,7 +52,7 @@ public class SensorMROpticalDistance extends LinearOpMode {
   public void runOpMode() {
 
     // get a reference to our Light Sensor object.
-    odsSensor = hardwareMap.get(OpticalDistanceSensor.class, "sensor_ods");
+    //odsSensor = hardwareMap.get(OpticalDistanceSensor.class, "sensor_ods");
 
     // wait for the start button to be pressed.
     waitForStart();
@@ -62,8 +62,8 @@ public class SensorMROpticalDistance extends LinearOpMode {
     while (opModeIsActive()) {
 
       // send the info back to driver station using telemetry function.
-      telemetry.addData("Raw",    odsSensor.getRawLightDetected());
-      telemetry.addData("Normal", odsSensor.getLightDetected());
+      //telemetry.addData("Raw",    odsSensor.getRawLightDetected());
+      //telemetry.addData("Normal", odsSensor.getLightDetected());
 
       telemetry.update();
     }

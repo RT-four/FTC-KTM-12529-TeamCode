@@ -21,9 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@TeleOp(name = "KTM TeleOp 2020", group = "Linear Opmode")
+@TeleOp(name = "KTM TeleOp 2019", group = "Linear Opmode")
 
-@Disabled
 public class TeleOP2019 extends LinearOpMode {
     private static final int LED_CHANNEL = 5;
     private ElapsedTime runtime = new ElapsedTime();
@@ -34,7 +33,8 @@ public class TeleOP2019 extends LinearOpMode {
     //    cutting off the error of sliders values
     double errorCorrection(double input) {
         if (Math.abs(input) < 0.02) {
-            return null;
+            double nol=0;
+            return nol;
         } else {
             return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
         }

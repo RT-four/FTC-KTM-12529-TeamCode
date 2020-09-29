@@ -1,0 +1,4 @@
+1)В robot.java решить вопрос с angles + autoPh_blue_skystone.java
+2)Пофиксить setMotorsPowerTimed
+3)Если робот не запускается, разкоменть protected int getRelic(VuforiaTrackable relicTemplate)
+4) Поменять местами объявление и использование переменных мощности моторов в TeleOP2020

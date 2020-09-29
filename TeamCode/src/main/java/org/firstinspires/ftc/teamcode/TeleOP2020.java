@@ -30,7 +30,8 @@ private ElapsedTime runtime = new ElapsedTime();
 //    cutting off the error of sliders values
 double errorCorrection(double input) {
         if (Math.abs(input) < 0.02) {
-                return null;
+                double nol=0;
+                return nol;
         } else {
                 return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
         }
@@ -118,13 +119,13 @@ public void runOpMode() {
                 double leftStickY   = gamepad1.left_stick_y;
                 double leftStickX   = -gamepad1.left_stick_x;
                 double rotation     = 0.7 * gamepad1.right_stick_x;
-                double dpadUp       = gamepad1.dpad_up;
-                double dpadRight    = gamepad1.dpad_right;
-                double dpadLeft     = gamepad1.dpad_up;
-                double dpadDown     = gamepad1.dpad_down;
+                boolean dpadUp       = gamepad1.dpad_up;
+                boolean dpadRight    = gamepad1.dpad_right;
+                boolean dpadLeft     = gamepad1.dpad_up;
+                boolean dpadDown     = gamepad1.dpad_down;
 
                 triggerLeft = errorCorrection(triggerLeft);
-                riggerRight = errorCorrection(triggerRight);
+                triggerRight = errorCorrection(triggerRight);
                 leftStickX  = errorCorrection(leftStickX);
                 leftStickY  = errorCorrection(leftStickY);
                 rotation    = errorCorrection(rotation);
