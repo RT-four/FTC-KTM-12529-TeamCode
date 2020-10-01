@@ -21,26 +21,26 @@ public class motor_test extends robot {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
 // robot wow= new robot();
-    BNO055IMU imu;
-    Orientation angles;
+//    BNO055IMU imu;
+//    Orientation angles;
     @Override
     public void runOpMode() {
-        initHW(hardwareMap);
-        //  wow.init(hardwareMap);
-        BNO055IMU.Parameters parametrs= new BNO055IMU.Parameters();
-        parametrs.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu = hardwareMap.get(BNO055IMU.class, "imu rev");
-        imu.initialize(parametrs);
+//        initHW(hardwareMap);
+//        //  wow.init(hardwareMap);
+//        BNO055IMU.Parameters parametrs= new BNO055IMU.Parameters();
+//        parametrs.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+//        imu = hardwareMap.get(BNO055IMU.class, "imu rev");
+//        imu.initialize(parametrs);
         runtime.reset();
         while(!opModeIsActive()) {
-            angles=imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("1", angles.firstAngle);
-            telemetry.addData("2", angles.secondAngle);
-            telemetry.addData("3", angles.thirdAngle);
-            telemetry.addData("Distance left: ", DistanceSensor_left.getDistance(DistanceUnit.CM));
-            telemetry.addData("Distance right: ", DistanceSensor_right.getDistance(DistanceUnit.CM));
-            telemetry.addData("Distance back: ", DistanceSensor_back.getDistance(DistanceUnit.CM));
-            telemetry.addData("Distance forward: ", DistanceSensor_forward.getDistance(DistanceUnit.CM));
+//            angles=imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//            telemetry.addData("1", angles.firstAngle);
+//            telemetry.addData("2", angles.secondAngle);
+//            telemetry.addData("3", angles.thirdAngle);
+//            telemetry.addData("Distance left: ", DistanceSensor_left.getDistance(DistanceUnit.CM));
+//            telemetry.addData("Distance right: ", DistanceSensor_right.getDistance(DistanceUnit.CM));
+//            telemetry.addData("Distance back: ", DistanceSensor_back.getDistance(DistanceUnit.CM));
+//            telemetry.addData("Distance forward: ", DistanceSensor_forward.getDistance(DistanceUnit.CM));
             telemetry.update();
             sleep(100);
         }
@@ -52,7 +52,13 @@ public class motor_test extends robot {
             double voltage=BatteryVoltage();
             double koeff=13.0/voltage;
             koeff=Math.pow(koeff,1.25);
-            setMotorsPowerTimed(-0.4*koeff,0.2*koeff,-0.5*koeff,0.25*koeff,10000);//first
+            setMotorsPowerTimed(0.5*koeff,0.0*koeff,0.0*koeff,0.0*koeff,10000);//first
+            sleep(200);
+            setMotorsPowerTimed(0.0*koeff,0.5*koeff,0.0*koeff,0.0*koeff,10000);//first
+            sleep(200);
+            setMotorsPowerTimed(0.0*koeff,0.0*koeff,0.5*koeff,0.0*koeff,10000);//first
+            sleep(200);
+            setMotorsPowerTimed(0.0*koeff,0.0*koeff,0.0*koeff,0.5*koeff,10000);//first
             sleep(200);
 
 

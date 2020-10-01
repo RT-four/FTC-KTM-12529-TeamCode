@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -30,10 +31,9 @@ private ElapsedTime runtime = new ElapsedTime();
 //    cutting off the error of sliders values
 double errorCorrection(double input) {
         if (Math.abs(input) < 0.02) {
-                double nol=0;
-                return nol;
+                return 0;
         } else {
-                return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1);
+                return Math.signum(input) * (0.9 * Math.pow(Math.abs(input), 2) + 0.1); // Conversion to nonlinear dependence
         }
 }
 
@@ -64,15 +64,15 @@ public void runOpMode() {
         DcMotor m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
         DcMotor m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
         DcMotor m4Drive = hardwareMap.get(DcMotor.class, "m4 drive");
-        DcMotor m5Lift = hardwareMap.get(DcMotor.class, "m5 lift");
-        DcMotor m6Intake = hardwareMap.get(DcMotor.class, "m6 intake");
-        DcMotor m7ruletka = hardwareMap.get(DcMotor.class, "m7 rul");
-        CRServo s1RelicExtRet = hardwareMap.get(CRServo.class, "s1 top claw");
-        Servo s3Rotation = hardwareMap.get(Servo.class, "s3 rotation");
-        Servo s4Kicker = hardwareMap.get(Servo.class, "s4 kick");
-        Servo s5Shovel = hardwareMap.get(Servo.class, "s5 shovel");
-        Servo s6RelicClaw = hardwareMap.get(Servo.class, "s6 relic claw");
-        Servo s7RelicArm = hardwareMap.get(Servo.class, "s7 relic arm");
+//        DcMotor m5Lift = hardwareMap.get(DcMotor.class, "m5 lift");
+//        DcMotor m6Intake = hardwareMap.get(DcMotor.class, "m6 intake");
+//        DcMotor m7ruletka = hardwareMap.get(DcMotor.class, "m7 rul");
+//        CRServo s1RelicExtRet = hardwareMap.get(CRServo.class, "s1 top claw");
+//        Servo s3Rotation = hardwareMap.get(Servo.class, "s3 rotation");
+//        Servo s4Kicker = hardwareMap.get(Servo.class, "s4 kick");
+//        Servo s5Shovel = hardwareMap.get(Servo.class, "s5 shovel");
+//        Servo s6RelicClaw = hardwareMap.get(Servo.class, "s6 relic claw");
+//        Servo s7RelicArm = hardwareMap.get(Servo.class, "s7 relic arm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -80,14 +80,14 @@ public void runOpMode() {
         m2Drive.setDirection(DcMotor.Direction.FORWARD);
         m3Drive.setDirection(DcMotor.Direction.FORWARD);
         m4Drive.setDirection(DcMotor.Direction.FORWARD);
-        m5Lift.setDirection(DcMotor.Direction.FORWARD);
-        m6Intake.setDirection(DcMotor.Direction.FORWARD);
+//        m5Lift.setDirection(DcMotor.Direction.FORWARD);
+//        m6Intake.setDirection(DcMotor.Direction.FORWARD);
         m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -130,10 +130,10 @@ public void runOpMode() {
                 leftStickY  = errorCorrection(leftStickY);
                 rotation    = errorCorrection(rotation);
 
-                m2DrivePower  = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + rotation - leftStickY - (triggerLeft + triggerRight + rotation);
-                m4DrivePower  = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + rotation + leftStickY - (triggerLeft + triggerRight + rotation);
-                m1DrivePower  = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + rotation + leftStickY + (triggerLeft + triggerRight + rotation);
-                m3DrivePower  = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + rotation - leftStickY + (triggerLeft + triggerRight + rotation);
+                m2DrivePower  = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + rotation - leftStickY - (triggerLeft + triggerRight + leftStickX);
+                m4DrivePower  = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + rotation + leftStickY - (triggerLeft + triggerRight + leftStickX);
+                m1DrivePower  = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + rotation + leftStickY + (triggerLeft + triggerRight + leftStickX);
+                m3DrivePower  = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + rotation - leftStickY + (triggerLeft + triggerRight + leftStickX);
                 double max    = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
 
                 if (max >= 1) {
@@ -147,6 +147,26 @@ public void runOpMode() {
                         m3Drive.setPower(m3DrivePower);
                         m4Drive.setPower(m4DrivePower);
                 }
+
+
+//                m2DrivePower = (m1DrivePowerfordrivetofoundation2+m1DrivePowerfordrivetofoundation22+m1DrivePowerfordrivetofoundation1+m1DrivePowerfordrivetofoundation11) + povorot-vpernazad-(slideL+slideR+vleovpravo);
+//                m4DrivePower = (m2DrivePowerfordrivetofoundation2+m2DrivePowerfordrivetofoundation22+m2DrivePowerfordrivetofoundation1+m2DrivePowerfordrivetofoundation11)+ povorot+vpernazad-(slideL+slideR+vleovpravo);
+//                m1DrivePower = (m3DrivePowerfordrivetofoundation2+m3DrivePowerfordrivetofoundation22+m3DrivePowerfordrivetofoundation1+m3DrivePowerfordrivetofoundation11)+povorot+vpernazad+(slideL+slideR+vleovpravo);
+//                m3DrivePower = (m4DrivePowerfordrivetofoundation2+m4DrivePowerfordrivetofoundation22+m4DrivePowerfordrivetofoundation1+m4DrivePowerfordrivetofoundation11)+ povorot-vpernazad+(slideL+slideR+vleovpravo);
+//                double mochs=1;
+//                double max = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
+//                // Send calculated power to wheelsв
+//                if (max >= 1) {
+//                        m1Drive.setPower(mochs*m1DrivePower *1/ max);
+//                        m2Drive.setPower(mochs*m2DrivePower *1/ max);
+//                        m3Drive.setPower(mochs*m3DrivePower *1/ max);
+//                        m4Drive.setPower(mochs*m4DrivePower *1/ max);
+//                } else {
+//                        m1Drive.setPower(mochs*m1DrivePower*1);
+//                        m2Drive.setPower(mochs*m2DrivePower*1);
+//                        m3Drive.setPower(mochs*m3DrivePower*1);
+//                        m4Drive.setPower(mochs*m4DrivePower*1);
+//                }
 
 
                 if (dpadUp) {

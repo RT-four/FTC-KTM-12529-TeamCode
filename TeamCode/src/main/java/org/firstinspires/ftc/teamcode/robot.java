@@ -54,27 +54,27 @@ protected void initHW(HardwareMap hardwMap) throws RuntimeException {
         m2Drive = hardwMap.get(DcMotor.class, "m2 drive");
         m3Drive = hardwMap.get(DcMotor.class, "m3 drive");
         m4Drive = hardwMap.get(DcMotor.class, "m4 drive");
-        //s1TopClaw = hardwMap.get(CRServo.class, "s1 top claw");
-        s4Kicker = hardwMap.get(Servo.class, "s4 kick");
-        //odsSensor = hardwMap.get(OpticalDistanceSensor.class, "sensor_ods");
-        s3Rotation = hardwMap.get(Servo.class, "s3 rotation");
-        s5Shovel = hardwMap.get(Servo.class, "s5 shovel");
-        s6RelicClaw = hardwMap.get(Servo.class, "s6 relic claw");
-        m6Intake = hardwMap.get(DcMotor.class, "m6 intake");
-        //sensorRGB = hardwMap.get(ColorSensor.class, "sensor_color");
-        m5Lift = hardwareMap.get(DcMotor.class, "m5 lift");
-        m7relutka = hardwareMap.get(DcMotor.class, "m7 rul");
-        //touchSensor = hardwMap.get(TouchSensor.class,"sensor touch");
-        DistanceSensor_left = hardwMap.get(DistanceSensor.class,"dist left");
-        DistanceSensor_right = hardwMap.get(DistanceSensor.class,"dist right");
-        DistanceSensor_back = hardwMap.get(DistanceSensor.class,"dist back");
-        DistanceSensor_forward = hardwMap.get(DistanceSensor.class,"dist forward");
+//        //s1TopClaw = hardwMap.get(CRServo.class, "s1 top claw");
+//        s4Kicker = hardwMap.get(Servo.class, "s4 kick");
+//        //odsSensor = hardwMap.get(OpticalDistanceSensor.class, "sensor_ods");
+//        s3Rotation = hardwMap.get(Servo.class, "s3 rotation");
+//        s5Shovel = hardwMap.get(Servo.class, "s5 shovel");
+//        s6RelicClaw = hardwMap.get(Servo.class, "s6 relic claw");
+//        m6Intake = hardwMap.get(DcMotor.class, "m6 intake");
+//        //sensorRGB = hardwMap.get(ColorSensor.class, "sensor_color");
+//        m5Lift = hardwareMap.get(DcMotor.class, "m5 lift");
+//        m7relutka = hardwareMap.get(DcMotor.class, "m7 rul");
+//        //touchSensor = hardwMap.get(TouchSensor.class,"sensor touch");
+//        DistanceSensor_left = hardwMap.get(DistanceSensor.class,"dist left");
+//        DistanceSensor_right = hardwMap.get(DistanceSensor.class,"dist right");
+//        DistanceSensor_back = hardwMap.get(DistanceSensor.class,"dist back");
+//        DistanceSensor_forward = hardwMap.get(DistanceSensor.class,"dist forward");
         m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 }
 
