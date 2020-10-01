@@ -148,27 +148,6 @@ public void runOpMode() {
                         m4Drive.setPower(m4DrivePower);
                 }
 
-
-//                m2DrivePower = (m1DrivePowerfordrivetofoundation2+m1DrivePowerfordrivetofoundation22+m1DrivePowerfordrivetofoundation1+m1DrivePowerfordrivetofoundation11) + povorot-vpernazad-(slideL+slideR+vleovpravo);
-//                m4DrivePower = (m2DrivePowerfordrivetofoundation2+m2DrivePowerfordrivetofoundation22+m2DrivePowerfordrivetofoundation1+m2DrivePowerfordrivetofoundation11)+ povorot+vpernazad-(slideL+slideR+vleovpravo);
-//                m1DrivePower = (m3DrivePowerfordrivetofoundation2+m3DrivePowerfordrivetofoundation22+m3DrivePowerfordrivetofoundation1+m3DrivePowerfordrivetofoundation11)+povorot+vpernazad+(slideL+slideR+vleovpravo);
-//                m3DrivePower = (m4DrivePowerfordrivetofoundation2+m4DrivePowerfordrivetofoundation22+m4DrivePowerfordrivetofoundation1+m4DrivePowerfordrivetofoundation11)+ povorot-vpernazad+(slideL+slideR+vleovpravo);
-//                double mochs=1;
-//                double max = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
-//                // Send calculated power to wheelsв
-//                if (max >= 1) {
-//                        m1Drive.setPower(mochs*m1DrivePower *1/ max);
-//                        m2Drive.setPower(mochs*m2DrivePower *1/ max);
-//                        m3Drive.setPower(mochs*m3DrivePower *1/ max);
-//                        m4Drive.setPower(mochs*m4DrivePower *1/ max);
-//                } else {
-//                        m1Drive.setPower(mochs*m1DrivePower*1);
-//                        m2Drive.setPower(mochs*m2DrivePower*1);
-//                        m3Drive.setPower(mochs*m3DrivePower*1);
-//                        m4Drive.setPower(mochs*m4DrivePower*1);
-//                }
-
-
                 if (dpadUp) {
                         m1DrivePowerfordrivetofoundation11 = 0.2;
                         m2DrivePowerfordrivetofoundation11 = -0.2;

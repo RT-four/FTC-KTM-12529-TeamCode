@@ -90,29 +90,6 @@ protected double BatteryVoltage() {
         return result;
 }
 
-
-/*protected void minusgoldmineral(){
-    setMotorsPowerTimed(-0.2,0.2,-0.2,0.2,800);//vlevo
-    sleep(200);
-    setMotorsPowerTimed(0.2,-0.2,0.2,-0.2,800);//vlevo
-    sleep(200);
-    s5Shovel.setPosition(0);
-   }
-    protected void putBox() {
-        setMotorsPowerTimed(0.18, -0.18, -0.18, 0.18, 0, 0, 1200);//РґРІРёР¶РµРЅРёРµ РЅР°Р·Р°Рґ
-        setMotorsPowerTimed(-0.2, 0.2, 0.2, -0.2, 0, 0, 300);//РґРІРёР¶РµРЅРёРµ РІРїРµСЂС‘Рґ
-        rotateClaw(0);
-        sleep(700);
-        setMotorsPowerTimed(0.2, -0.2, -0.2, 0.2, 0, 0, 400);//РґРІРёР¶РµРЅРёРµ РІРїРµСЂС‘Рґ
-        setMotorsPowerTimed(-0.2, 0.2, 0.2, -0.2, 0, 0, 300);//РґРІРёР¶РµРЅРёРµ РЅР°Р·Р°Рґ
-        rotateClaw(0.8);
-    }
-
-    // Rotate claw
-    protected void rotateClaw(double rotate) { //if rotate true then rotate to  180 . else to 0
-        s3Rotation.setPosition(rotate);
-    }*/
-
 // Send power to wheels
 protected void setMotorsPower(double D1_power, double D2_power, double D3_power, double D4_power) {
         m1Drive.setPower(D1_power);
@@ -234,95 +211,6 @@ protected void log(String WhatToSave) {
 protected String printLog() {
         return log;
 }
-
-
-
-// protected int getRelic(VuforiaTrackable relicTemplate) {
-//     RelicRecoveryVuMark vuMark;
-//     for (int tick = 0; tick < 4000; tick += 10) {
-//         vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//         telemetry.addData("Vumark", vuMark);
-//         telemetry.update();
-//         if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-//             sleep(10);
-//         } else {
-//             if (vuMark == RelicRecoveryVuMark.LEFT) {
-//                 return 1;
-//             }
-//             if (vuMark == RelicRecoveryVuMark.CENTER) {
-//                 return 2;
-//             }
-//             if (vuMark == RelicRecoveryVuMark.RIGHT) {
-//                 return 3;
-//             }
-//         }
-//     }
-//     return 99999;
-// }
-
-
-// protected int getPicture(VuforiaTrackable picture) {
-//     RelicRecoveryVuMark PPicture;
-//     for (int tick = 0; tick < 4000; tick += 10) {
-//         PPicture = RelicRecoveryVuMark.from(picture);
-//         telemetry.addData("Picture", PPicture);
-//         telemetry.update();
-//         if (PPicture == RelicRecoveryVuMark.UNKNOWN) {
-//             sleep(10);
-//         } else {
-//             if (PPicture == RelicRecoveryVuMark.LEFT) {
-//                 return 1;
-//             }
-//             if (PPicture == RelicRecoveryVuMark.CENTER) {
-//                 return 2;
-//             }
-//             if (PPicture == RelicRecoveryVuMark.RIGHT) {
-//                 return 3;
-//             }
-//         }
-//     }
-//     return 99999;
-// }
-
-
-// protected void goforskystone(double koeff, int vpered){
-//     setMotorsPowerTimed(0.2*koeff,-0.2*koeff,-0.2*koeff,0.2*koeff,vpered);//vpered
-//     sleep(200);
-//     s4Kicker.setPosition(1);
-//     sleep(1000);
-//     setMotorsPowerTimed(-0.2*koeff,0.2*koeff,0.2*koeff,-0.2*koeff,250);//nazad
-//     sleep(200);
-//     s3Rotation.setPosition(0);
-//     sleep(1000);
-//     s4Kicker.setPosition(0);
-//     sleep(1000);
-// }
-// protected void goforskystoneopencv(double koeff){
-//     s4Kicker.setPosition(1);
-//     sleep(500);
-//     setMotorsPowerTimed(0.2*koeff,-0.2*koeff,-0.2*koeff,0.2*koeff,250);//nazad
-//     sleep(100);
-//     s3Rotation.setPosition(0);
-//     sleep(500);
-//     s4Kicker.setPosition(0);
-//     sleep(700);
-// }
-// protected void goforskystoneopencvright(double koeff){
-//     setMotorsPowerTimed(0.2*koeff,-0.2*koeff,-0.2*koeff,0.2*koeff,250);//nazad
-//     sleep(100);
-//     s3Rotation.setPosition(0);
-//     sleep(500);
-//     s4Kicker.setPosition(0);
-//     sleep(700);
-// }
-// protected void otpustiskystone(){
-//     s4Kicker.setPosition(1);
-//     sleep(200);
-//     s3Rotation.setPosition(0.7);
-//     sleep(200);
-//     s4Kicker.setPosition(0);
-//     sleep(200);
-// }
 
 @Deprecated
 protected void goToCryptoBoxRED(double fieldColorSR, ElapsedTime runtime) {
