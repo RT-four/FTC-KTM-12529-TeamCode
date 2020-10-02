@@ -167,8 +167,6 @@ protected void chassisStopMovement() {
         m2Drive.setPower(0);
         m3Drive.setPower(0);
         m4Drive.setPower(0);
-        m5Lift.setPower(0);
-        m6Intake.setPower(0);
 }
 
 protected void setMotorsPowerTimed(double m1_power, double m2_power, double m3_power, double m4_power, double m5_power, double m6_power, long ms) {

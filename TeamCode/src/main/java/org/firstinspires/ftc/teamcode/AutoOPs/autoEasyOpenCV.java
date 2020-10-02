@@ -53,6 +53,7 @@ public class autoEasyOpenCV extends robot {
 
     @Override
     public void runOpMode() {
+        initHW(hardwareMap);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -72,38 +73,43 @@ public class autoEasyOpenCV extends robot {
         });
 
         waitForStart();
+        {
 
-        while (opModeIsActive()) {
+//            while (opModeIsActive()) {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
 
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
-        }
 
-        double voltage=BatteryVoltage();
-        double koeff=13.0/voltage;
-        koeff=Math.pow(koeff,1.25);
-        double time1;
-        double time2;
-        if(pipeline.position == SkystoneDeterminationPipeline.RingPosition.FOUR){
-            setMotorsPowerTimed(-0.4*koeff,0.4*koeff,0.4*koeff,-0.4*koeff,600);
-            telemetry.addData("Detected ring position", pipeline.position);
-            telemetry.update();
-        }
-        if(pipeline.position == SkystoneDeterminationPipeline.RingPosition.ONE){
-            setMotorsPowerTimed(-0.4*koeff,0.4*koeff,0.4*koeff,-0.4*koeff,600);
-            telemetry.addData("Detected ring position", pipeline.position);
-            telemetry.update();
-        }
-        if(pipeline.position == SkystoneDeterminationPipeline.RingPosition.NONE){
-            setMotorsPowerTimed(-0.4*koeff,0.4*koeff,0.4*koeff,-0.4*koeff,600);
-            telemetry.addData("Detected ring position", pipeline.position);
-            telemetry.update();
+//            }
+
+            double voltage = BatteryVoltage();
+            double koeff = 13.0 / voltage;
+            koeff = Math.pow(koeff, 1.25);
+            double time1;
+            double time2;
+            if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.FOUR) {
+                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
+                telemetry.addData("Detected ring position", pipeline.position);
+                telemetry.update();
+            }
+            if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.ONE) {
+                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
+                telemetry.addData("Detected ring position", pipeline.position);
+                telemetry.update();
+            }
+            if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.NONE) {
+                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
+                telemetry.addData("Detected ring position", pipeline.position);
+                telemetry.update();
+            }
+            sleep(50);
+
+
         }
     }
-
 
 
 // ***********************************************************************************************************************
