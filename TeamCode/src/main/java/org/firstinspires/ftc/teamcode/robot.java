@@ -1,3 +1,13 @@
+/*
+This program was written by the FTC KTM #12529 team at the Polytechnic University in 2020.
+
+This code is written as a class from which the rest must inherit, to gain access to the main functions of the program.
+
+Our team wishes you all the best for the upcoming tournament.
+All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
+
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+*/
 package org.firstinspires.ftc.teamcode;
 
 // Technical imports
@@ -26,197 +36,85 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 
 public abstract class robot extends LinearOpMode {
-protected static final int LED_CHANNEL = 5;
-protected DcMotor m1Drive = null;
-protected DcMotor m2Drive = null;
-protected DcMotor m3Drive = null;
-protected DcMotor m4Drive = null;
-protected CRServo s1TopClaw = null;
-protected Servo s4Kicker = null;
-protected Servo s3Rotation = null;
-protected Servo s5Shovel = null;
-protected Servo s6RelicClaw = null;
-protected DcMotor m6Intake = null;
-protected DcMotor m5Lift = null;
-protected DcMotor m7relutka=null;
-//protected ColorSensor sensorRGB;
-//protected TouchSensor touchSensor;
-protected Double shininessCoefficient = 1.8;
-protected DistanceSensor DistanceSensor_left;
-protected DistanceSensor DistanceSensor_right;
-protected DistanceSensor DistanceSensor_back;
-protected DistanceSensor DistanceSensor_forward;
-protected float hsvValues[] = {0F, 0F, 0F};
-private String log = "";
+        protected static final int LED_CHANNEL = 5;
+        protected DcMotor m1Drive = null;
+        protected DcMotor m2Drive = null;
+        protected DcMotor m3Drive = null;
+        protected DcMotor m4Drive = null;
+        private String log = "";
 
-protected void initHW(HardwareMap hardwMap) throws RuntimeException {
-        m1Drive = hardwMap.get(DcMotor.class, "m1 drive");
-        m2Drive = hardwMap.get(DcMotor.class, "m2 drive");
-        m3Drive = hardwMap.get(DcMotor.class, "m3 drive");
-        m4Drive = hardwMap.get(DcMotor.class, "m4 drive");
-//        //s1TopClaw = hardwMap.get(CRServo.class, "s1 top claw");
-//        s4Kicker = hardwMap.get(Servo.class, "s4 kick");
-//        //odsSensor = hardwMap.get(OpticalDistanceSensor.class, "sensor_ods");
-//        s3Rotation = hardwMap.get(Servo.class, "s3 rotation");
-//        s5Shovel = hardwMap.get(Servo.class, "s5 shovel");
-//        s6RelicClaw = hardwMap.get(Servo.class, "s6 relic claw");
-//        m6Intake = hardwMap.get(DcMotor.class, "m6 intake");
-//        //sensorRGB = hardwMap.get(ColorSensor.class, "sensor_color");
-//        m5Lift = hardwareMap.get(DcMotor.class, "m5 lift");
-//        m7relutka = hardwareMap.get(DcMotor.class, "m7 rul");
-//        //touchSensor = hardwMap.get(TouchSensor.class,"sensor touch");
-//        DistanceSensor_left = hardwMap.get(DistanceSensor.class,"dist left");
-//        DistanceSensor_right = hardwMap.get(DistanceSensor.class,"dist right");
-//        DistanceSensor_back = hardwMap.get(DistanceSensor.class,"dist back");
-//        DistanceSensor_forward = hardwMap.get(DistanceSensor.class,"dist forward");
-        m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        m5Lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        m6Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-}
-
-// Protection against negative voltage values
-protected double BatteryVoltage() {
-        double result = Double.POSITIVE_INFINITY;
-        for (VoltageSensor sensor : hardwareMap.voltageSensor) {
-                double voltage = sensor.getVoltage();
-                if (voltage > 0) {
-                        result = Math.min(result, voltage);
-                }
+        // Initialization of connected devices
+        protected void initHW(HardwareMap hardwareMap) throws RuntimeException {
+                m1Drive = hardwareMap.get(DcMotor.class, "m1 drive");
+                m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
+                m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
+                m4Drive = hardwareMap.get(DcMotor.class, "m4 drive");
+                m1Drive.setDirection(DcMotor.Direction.FORWARD);
+                m2Drive.setDirection(DcMotor.Direction.FORWARD);
+                m3Drive.setDirection(DcMotor.Direction.FORWARD);
+                m4Drive.setDirection(DcMotor.Direction.FORWARD);
+                m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        return result;
-}
 
-// Send power to wheels
-protected void setMotorsPower(double D1_power, double D2_power, double D3_power, double D4_power) {
-        m1Drive.setPower(D1_power);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power);
-        m4Drive.setPower(D4_power);
-}
+        // Protection against negative voltage values
+        protected double BatteryVoltage() {
+                double result = Double.POSITIVE_INFINITY;
+                for (VoltageSensor sensor : hardwareMap.voltageSensor) {
+                        double voltage = sensor.getVoltage();
+                        if (voltage > 0) {
+                                result = Math.min(result, voltage);
+                        }
+                }
+                return result;
+        }
 
-// Send power to wheels
-protected void setMotorsPower(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power +angles.firstAngle / 30);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power+ angles.firstAngle / 30);
-        m4Drive.setPower(D4_power);
-}
-protected void setMotorsPowerforvard(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu, double angle) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power );
-        m2Drive.setPower(D2_power-(angle-angles.firstAngle )/ 24);
-        m3Drive.setPower(D3_power);
-        m4Drive.setPower(D4_power-(angle-angles.firstAngle) / 24);
-}
-//проверить обратную
-protected void setMotorsPowerback(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu, double angle) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power - (angle-angles.firstAngle )/ 24);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power - (angle-angles.firstAngle) / 24);
-        m4Drive.setPower(D4_power);
-}
-protected void setMotorsPowerright(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu, double angle) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power - (angle-angles.firstAngle )/ 30);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power - (angle-angles.firstAngle) / 30);
-        m4Drive.setPower(D4_power);
-}
-protected void setMotorsPowerleft(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu, double angle) {
-        // Send power to wheels
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power - (angle-angles.firstAngle )/ 30);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power - (angle-angles.firstAngle) / 30);
-        m4Drive.setPower(D4_power);
-}
-/*protected void setMotorsPower(double D1_power, double D2_power, double D3_power, double D4_power, Orientation angles, BNO055IMU imu, double r) {
-    // Send power to wheels
-    DistanceSensor_left.getDistance(DistanceUnit.CM);//дописать с дистанцией которая получается из аргументов функции
-    if(DistanceSensor_left.getDistance(DistanceUnit.CM)<r-2) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power + angles.firstAngle / 30);
-        m2Drive.setPower(D2_power+(r-DistanceSensor_left.getDistance(DistanceUnit.CM))/150);
-        m3Drive.setPower(D3_power-(r-DistanceSensor_left.getDistance(DistanceUnit.CM))/150);
-        m4Drive.setPower(D4_power);
-    }
-    if(DistanceSensor_left.getDistance(DistanceUnit.CM)>r+2) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power + angles.firstAngle / 30);
-        m2Drive.setPower(D2_power+(r-DistanceSensor_left.getDistance(DistanceUnit.CM))/150);
-        m3Drive.setPower(D3_power-(r-DistanceSensor_left.getDistance(DistanceUnit.CM))/150);
-        m4Drive.setPower(D4_power);
-    }
-    if(DistanceSensor_left.getDistance(DistanceUnit.CM)<(r+2)&&DistanceSensor_left.getDistance(DistanceUnit.CM)>(r-2)){
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(D1_power + angles.firstAngle / 30);
-        m2Drive.setPower(D2_power);
-        m3Drive.setPower(D3_power);
-        m4Drive.setPower(D4_power);
-    }
-   }*/
+        // Stop all chassis motors
+        protected void chassisStopMovement() {
+                m1Drive.setPower(0);
+                m2Drive.setPower(0);
+                m3Drive.setPower(0);
+                m4Drive.setPower(0);
+        }
 
-protected void chassisStopMovement() {
-        m1Drive.setPower(0);
-        m2Drive.setPower(0);
-        m3Drive.setPower(0);
-        m4Drive.setPower(0);
-}
+        // Setting certain values for motors for a while
+        protected void setMotorsPowerTimed(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
+                m1Drive.setPower(m1_power);
+                m2Drive.setPower(m2_power);
+                m3Drive.setPower(m3_power);
+                m4Drive.setPower(m4_power);
+                sleep(ms);
+                chassisStopMovement();
+        }
 
-protected void setMotorsPowerTimed(double m1_power, double m2_power, double m3_power, double m4_power, double m5_power, double m6_power, long ms) {
-        m1Drive.setPower(m1_power);
-        m2Drive.setPower(m2_power);
-        m3Drive.setPower(m3_power);
-        m4Drive.setPower(m4_power);
-        m5Lift.setPower(m5_power);
-        m6Intake.setPower(m6_power);
-        sleep(ms);
-        chassisStopMovement();
-}
-protected void setMotorsPowerTimed(double m1_power, double m2_power, double m3_power, double m4_power, long ms, Orientation angles, BNO055IMU imu) {
-        angles=imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        m1Drive.setPower(m1_power);
-        m2Drive.setPower(m2_power);
-        m3Drive.setPower(m3_power);
-        m4Drive.setPower(m4_power);
-        sleep(ms);
-        chassisStopMovement();
-}
-protected void setMotorsPowerTimed(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
-        m1Drive.setPower(m1_power);
-        m2Drive.setPower(m2_power);
-        m3Drive.setPower(m3_power);
-        m4Drive.setPower(m4_power);
-        sleep(ms);
-        chassisStopMovement();
-}
+        // Setting certain values for motors for a while with the output of the values in telemetry
+        // Warning: possible slight error in time, use only for debugging
+        protected void setMotorsPowerTimedDebug(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
+                int time=0;
+                while (time<ms)
+                {
+                        m1Drive.setPower(m1_power);
+                        m2Drive.setPower(m2_power);
+                        m3Drive.setPower(m3_power);
+                        m4Drive.setPower(m4_power);
+                        telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());
+                        telemetry.update();
+                        sleep(1);
+                        time+=1;
+                }
+                chassisStopMovement();
+        }
 
-
-protected void log(String WhatToSave, Double Value) {
-        log += WhatToSave + ": " + Value + "\n";
-}
-
-protected void log(String WhatToSave) {
-        log += WhatToSave + "\n";
-}
-
-protected String printLog() {
-        return log;
-}
-
-@Deprecated
-protected void goToCryptoBoxRED(double fieldColorSR, ElapsedTime runtime) {
-        assert true;
-}
-
-@Deprecated
-protected void goToCryptoBoxBLUE(double fieldColorSR, ElapsedTime runtime) {
-        assert true;
-}
+        // All for logs
+        protected void log(String WhatToSave, Double Value) {
+                log += WhatToSave + ": " + Value + "\n";
+        }
+        protected void log(String WhatToSave) {
+                log += WhatToSave + "\n";
+        }
+        protected String printLog() {
+                return log;
+        }
 }

@@ -1,4 +1,15 @@
+/*
+This program was written by the FTC KTM #12529 team at the Polytechnic University in 2020.
+
+This code is written to debug the operation of motors.
+
+Our team wishes you all the best for the upcoming tournament.
+All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
+
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+*/
 package org.firstinspires.ftc.teamcode.AutoOPs;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.robot;
@@ -15,22 +26,23 @@ public class DebugMotors extends robot {
 
         waitForStart();
         {
-
             runtime.reset();
 
+            //Voltage regulation depending on the battery charge level
             double voltage = BatteryVoltage();
             double koeff = 13.0 / voltage;
             koeff = Math.pow(koeff, 1.25);
 
-            setMotorsPowerTimed(0.4 * koeff, 0.0 * koeff, 0.0 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(-0.4 * koeff, 0.0 * koeff, 0.0 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, 0.4 * koeff, 0.0 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, -0.4 * koeff, 0.0 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, 0.0 * koeff, 0.4 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, 0.0 * koeff, -0.4 * koeff, 0.0 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, 0.0 * koeff, 0.0 * koeff, 0.4 * koeff, time);
-            setMotorsPowerTimed(0.0 * koeff, 0.0 * koeff, 0.0 * koeff, -0.4 * koeff, time);
-            telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive, m2Drive, m3Drive, m4Drive);
+            setMotorsPowerTimedDebug(0.4 * koeff, 0.0 * koeff, 0.0 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(-0.4 * koeff, 0.0 * koeff, 0.0 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, 0.4 * koeff, 0.0 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, -0.4 * koeff, 0.0 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, 0.0 * koeff, 0.4 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, 0.0 * koeff, -0.4 * koeff, 0.0 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, 0.0 * koeff, 0.0 * koeff, 0.4 * koeff, time);
+            setMotorsPowerTimedDebug(0.0 * koeff, 0.0 * koeff, 0.0 * koeff, -0.4 * koeff, time);
+            telemetry.clear();
+            telemetry.addLine("Debug completed");
             telemetry.update();
         }
     }

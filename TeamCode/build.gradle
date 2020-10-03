@@ -15,4 +15,5 @@
 apply from: '../build.common.gradle'
 dependencies {
     implementation 'org.openftc:easyopencv:1.4.1'
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }
