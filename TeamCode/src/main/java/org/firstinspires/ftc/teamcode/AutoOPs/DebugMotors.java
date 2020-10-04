@@ -12,10 +12,10 @@ package org.firstinspires.ftc.teamcode.AutoOPs;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.robot;
+import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name= "DebugMotors", group="AutoOP")
-public class DebugMotors extends robot {
+public class DebugMotors extends Robot {
     private ElapsedTime runtime = new ElapsedTime();
     private int time = 3000; //One way rotation time (ms)
 
