@@ -38,11 +38,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 
 public abstract class Robot extends LinearOpMode {
-    protected static final int LED_CHANNEL = 5;
     protected DcMotor m1Drive = null;
     protected DcMotor m2Drive = null;
     protected DcMotor m3Drive = null;
     protected DcMotor m4Drive = null;
+    protected DistanceSensor distanceSensorForward;
     private String log = "";
 
     // Initialization of connected devices
@@ -51,6 +51,7 @@ public abstract class Robot extends LinearOpMode {
         m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
         m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
         m4Drive = hardwareMap.get(DcMotor.class, "m4 drive");
+        distanceSensorForward = hardwareMap.get(DistanceSensor.class,"distanceSensor forward");
         m1Drive.setDirection(DcMotor.Direction.FORWARD);
         m2Drive.setDirection(DcMotor.Direction.FORWARD);
         m3Drive.setDirection(DcMotor.Direction.FORWARD);
@@ -59,6 +60,10 @@ public abstract class Robot extends LinearOpMode {
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        telemetry.clear();
+        telemetry.addLine("HardwareMap initialization complete");
+        telemetry.update();
+
     }
 
     // Protection against negative voltage values
@@ -95,11 +100,11 @@ public abstract class Robot extends LinearOpMode {
     // Warning: possible slight error in time, use only for debugging
     protected void setMotorsPowerTimedDebug(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
         int time = 0;
-        while (time < ms) {
-            m1Drive.setPower(m1_power);
-            m2Drive.setPower(m2_power);
-            m3Drive.setPower(m3_power);
-            m4Drive.setPower(m4_power);
+        m1Drive.setPower(m1_power);
+        m2Drive.setPower(m2_power);
+        m3Drive.setPower(m3_power);
+        m4Drive.setPower(m4_power);
+        while (time <= ms) {
             telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());
             telemetry.update();
             sleep(1);
@@ -112,11 +117,9 @@ public abstract class Robot extends LinearOpMode {
     protected void log(String WhatToSave, Double Value) {
         log += WhatToSave + ": " + Value + "\n";
     }
-
     protected void log(String WhatToSave) {
         log += WhatToSave + "\n";
     }
-
     protected String printLog() {
         return log;
     }

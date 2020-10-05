@@ -1,23 +1,13 @@
 /*
- * Copyright (c) 2020 OpenFTC Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+This program was written by the FTC KTM #12529 team at the Polytechnic University in 2020.
+
+This autonomy is the main one. She processes the number of rings and travels along a given trajectory
+
+Our team wishes you all the best for the upcoming tournament.
+All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
+
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+*/
 
 package org.firstinspires.ftc.teamcode.AutoOPs;
 
@@ -33,6 +23,10 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import org.firstinspires.ftc.teamcode.Vision.EasyOpenCVVision;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+
 @Autonomous(name = "AutoEasyOpenCV", group = "AutoOP")
 public class AutoEasyOpenCV extends Robot {
     private ElapsedTime runtime = new ElapsedTime();
@@ -42,57 +36,66 @@ public class AutoEasyOpenCV extends Robot {
     @Override
     public void runOpMode() {
         initHW(hardwareMap);
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)distanceSensorForward;
 
+        // Camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         pipeline = new EasyOpenCVVision();
         phoneCam.setPipeline(pipeline);
-
-        // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
-        // out when the RC activity is in portrait. We do our actual image processing assuming
-        // landscape orientation, though.
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
                 phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
         });
+        telemetry.addLine("Phone camera initialized");
+        telemetry.update();
 
         waitForStart();
         {
-
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Position", pipeline.position);
+            telemetry.clear();
+            telemetry.addData("Number of rings ", pipeline.position);
             telemetry.update();
+//                // generic DistanceSensor methods.
+//                telemetry.addData("deviceName",distanceSensorForward.getDeviceName() );
+//                telemetry.addData("range", String.format("%.01f m", distanceSensorForward.getDistance(DistanceUnit.METER)));
+//
+//
+//                // Rev2mDistanceSensor specific methods.
+//                telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
+//                telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
+//
+//                telemetry.update();
 
-            // Don't burn CPU cycles busy-looping in this sample
-            sleep(50);
-
+            //Voltage regulation depending on the battery charge level
             double voltage = BatteryVoltage();
             double koeff = 13.0 / voltage;
             koeff = Math.pow(koeff, 1.25);
-            double time1;
-            double time2;
-            if (pipeline.position == EasyOpenCVVision.RingPosition.FOUR) {
-                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
-                telemetry.addData("Detected ring position", pipeline.position);
-                telemetry.update();
-            }
-            if (pipeline.position == EasyOpenCVVision.RingPosition.ONE) {
-                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
-                telemetry.addData("Detected ring position", pipeline.position);
-                telemetry.update();
-            }
-            if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
-                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
-                telemetry.addData("Detected ring position", pipeline.position);
-                telemetry.update();
-            }
-            sleep(50);
+            setMotorsPowerTimed(-0.5 * koeff, 0.5 * koeff, 0.5 * koeff, -0.5 * koeff, 1000);
+            while ((int)distanceSensorForward.getDistance(DistanceUnit.CM)>(int)50){
+                m1Drive.setPower(-0.2);
+                m2Drive.setPower(0.2);
+                m3Drive.setPower(0.2);
+                m4Drive.setPower(-0.2);
 
+                telemetry.addData("Distance to the wall: ", String.format("%.01f cm", distanceSensorForward.getDistance(DistanceUnit.CM)));
 
+                telemetry.update();
+            }
+            chassisStopMovement();
+
+            // The choice of the direction of movement depending on the number of rings
+//            if (pipeline.position == EasyOpenCVVision.RingPosition.FOUR) {
+//                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
+//            }
+//            if (pipeline.position == EasyOpenCVVision.RingPosition.ONE) {
+//                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
+//            }
+//            if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
+//                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
+//            }
         }
     }
 }

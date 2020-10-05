@@ -22,10 +22,9 @@ public class DebugMotors extends Robot {
     @Override
     public void runOpMode() {
         initHW(hardwareMap);
-        telemetry.update();
-
         waitForStart();
         {
+            telemetry.clear();
             runtime.reset();
 
             //Voltage regulation depending on the battery charge level

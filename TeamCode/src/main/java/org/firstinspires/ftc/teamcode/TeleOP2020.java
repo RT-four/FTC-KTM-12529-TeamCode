@@ -11,7 +11,7 @@ Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
 package org.firstinspires.ftc.teamcode;
 
 import android.os.CountDownTimer;
-
+import org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -33,11 +33,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @TeleOp(name = "KTM TeleOp 2020", group = "Linear Opmode")
-public class TeleOP2020 extends LinearOpMode {
-        private static final int LED_CHANNEL = 5;
+public class TeleOP2020 extends Robot {
         private ElapsedTime runtime = new ElapsedTime();
 
-        // Сutting off the error of sliders values
+        // cutting off the error of sliders values
         private double errorCorrection(double input) {
                 if (Math.abs(input) < 0.02) {
                         return 0;
@@ -46,35 +45,12 @@ public class TeleOP2020 extends LinearOpMode {
                 }
         }
 
-
         @Override
         public void runOpMode() {
-
-                telemetry.addData("Status", "Initialized");
-                telemetry.update();
-
-                // Initialize the hardware variables. Note that the strings used here as parameters
-                // to 'get' must correspond to the names assigned during the robot configuration
-                // step (using the FTC Robot Controller app on the phone).
-
-                DcMotor m1Drive = hardwareMap.get(DcMotor.class, "m1 drive");
-                DcMotor m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
-                DcMotor m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
-                DcMotor m4Drive = hardwareMap.get(DcMotor.class, "m4 drive");
-
-                // Most robots need the motor on one side to be reversed to drive forward
-                // Reverse the motor that runs backwards when connected directly to the battery
-                m1Drive.setDirection(DcMotor.Direction.FORWARD);
-                m2Drive.setDirection(DcMotor.Direction.FORWARD);
-                m3Drive.setDirection(DcMotor.Direction.FORWARD);
-                m4Drive.setDirection(DcMotor.Direction.FORWARD);
-                m1Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+                initHW(hardwareMap);
                 // Wait for the game to start (driver presses PLAY)
                 waitForStart();
+                telemetry.clear();
                 runtime.reset();
                 double m1DrivePower;
                 double m2DrivePower;
@@ -179,7 +155,7 @@ public class TeleOP2020 extends LinearOpMode {
 
 
                         telemetry.addData("Status:", "Run Time: " + runtime.toString());
-                        telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1DrivePower, m2DrivePower, m3DrivePower, m4DrivePower);
+                        telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());
                         telemetry.update();
                 }
         }
