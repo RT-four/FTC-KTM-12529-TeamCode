@@ -56,22 +56,6 @@ public class TeleOP2020 extends Robot {
                 double m2DrivePower;
                 double m3DrivePower;
                 double m4DrivePower;
-                double m1DrivePowerfordrivetofoundation1  = 0;
-                double m2DrivePowerfordrivetofoundation1  = 0;
-                double m3DrivePowerfordrivetofoundation1  = 0;
-                double m4DrivePowerfordrivetofoundation1  = 0;
-                double m1DrivePowerfordrivetofoundation11 = 0;
-                double m2DrivePowerfordrivetofoundation11 = 0;
-                double m3DrivePowerfordrivetofoundation11 = 0;
-                double m4DrivePowerfordrivetofoundation11 = 0;
-                double m1DrivePowerfordrivetofoundation2  = 0;
-                double m2DrivePowerfordrivetofoundation2  = 0;
-                double m3DrivePowerfordrivetofoundation2  = 0;
-                double m4DrivePowerfordrivetofoundation2  = 0;
-                double m1DrivePowerfordrivetofoundation22 = 0;
-                double m2DrivePowerfordrivetofoundation22 = 0;
-                double m3DrivePowerfordrivetofoundation22 = 0;
-                double m4DrivePowerfordrivetofoundation22 = 0;
 
                 while (opModeIsActive()) {
                         double triggerLeft  = 0.7 * gamepad1.left_trigger;
@@ -81,7 +65,7 @@ public class TeleOP2020 extends Robot {
                         double rotation     = 0.7 * gamepad1.right_stick_x;
                         boolean dpadUp      = gamepad1.dpad_up;
                         boolean dpadRight   = gamepad1.dpad_right;
-                        boolean dpadLeft    = gamepad1.dpad_up;
+                        boolean dpadLeft    = gamepad1.dpad_left;
                         boolean dpadDown    = gamepad1.dpad_down;
 
                         triggerLeft = errorCorrection(triggerLeft);
@@ -90,12 +74,41 @@ public class TeleOP2020 extends Robot {
                         leftStickY  = errorCorrection(leftStickY);
                         rotation    = errorCorrection(rotation);
 
-                        m2DrivePower  = (m1DrivePowerfordrivetofoundation2 + m1DrivePowerfordrivetofoundation22 + m1DrivePowerfordrivetofoundation1 + m1DrivePowerfordrivetofoundation11) + rotation - leftStickY - (triggerLeft + triggerRight + leftStickX);
-                        m4DrivePower  = (m2DrivePowerfordrivetofoundation2 + m2DrivePowerfordrivetofoundation22 + m2DrivePowerfordrivetofoundation1 + m2DrivePowerfordrivetofoundation11) + rotation + leftStickY - (triggerLeft + triggerRight + leftStickX);
-                        m1DrivePower  = (m3DrivePowerfordrivetofoundation2 + m3DrivePowerfordrivetofoundation22 + m3DrivePowerfordrivetofoundation1 + m3DrivePowerfordrivetofoundation11) + rotation + leftStickY + (triggerLeft + triggerRight + leftStickX);
-                        m3DrivePower  = (m4DrivePowerfordrivetofoundation2 + m4DrivePowerfordrivetofoundation22 + m4DrivePowerfordrivetofoundation1 + m4DrivePowerfordrivetofoundation11) + rotation - leftStickY + (triggerLeft + triggerRight + leftStickX);
-                        double max    = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
+                        m1DrivePower = 0;
+                        m2DrivePower = 0;
+                        m3DrivePower = 0;
+                        m4DrivePower = 0;
 
+                        if (dpadUp) {
+                                m1DrivePower -= 0.2;
+                                m2DrivePower += 0.2;
+                                m3DrivePower += 0.2;
+                                m4DrivePower -= 0.2;
+                        }
+                        if (dpadDown) {
+                                m1DrivePower += 0.2;
+                                m2DrivePower -= 0.2;
+                                m3DrivePower -= 0.2;
+                                m4DrivePower += 0.2;
+                        }
+                        if (dpadLeft) {
+                                m1DrivePower += 0.33;
+                                m2DrivePower -= 0.33;
+                                m3DrivePower += 0.33;
+                                m4DrivePower -= 0.33;
+                        }
+                        if (dpadRight) {
+                                m1DrivePower -= 0.33;
+                                m2DrivePower += 0.33;
+                                m3DrivePower -= 0.33;
+                                m4DrivePower += 0.33;
+                        }
+
+                        m1DrivePower += rotation + leftStickY + (triggerLeft + triggerRight + leftStickX);
+                        m2DrivePower += rotation - leftStickY - (triggerLeft + triggerRight + leftStickX);
+                        m3DrivePower += rotation - leftStickY + (triggerLeft + triggerRight + leftStickX);
+                        m4DrivePower += rotation + leftStickY - (triggerLeft + triggerRight + leftStickX);
+                        double max    = Math.max(Math.max(m1DrivePower, m2DrivePower), Math.max(m3DrivePower, m4DrivePower));
                         if (max >= 1) {
                                 m1Drive.setPower(m1DrivePower / max);
                                 m2Drive.setPower(m2DrivePower / max);
@@ -107,52 +120,6 @@ public class TeleOP2020 extends Robot {
                                 m3Drive.setPower(m3DrivePower);
                                 m4Drive.setPower(m4DrivePower);
                         }
-
-                        if (dpadUp) {
-                                m1DrivePowerfordrivetofoundation11 = 0.2;
-                                m2DrivePowerfordrivetofoundation11 = -0.2;
-                                m3DrivePowerfordrivetofoundation11 = -0.2;
-                                m4DrivePowerfordrivetofoundation11 = 0.2;
-                        } else {
-                                m1DrivePowerfordrivetofoundation11 = 0;
-                                m2DrivePowerfordrivetofoundation11 = 0;
-                                m3DrivePowerfordrivetofoundation11 = 0;
-                                m4DrivePowerfordrivetofoundation11 = 0;
-                        }
-                        if (dpadDown) {
-                                m1DrivePowerfordrivetofoundation1 = -0.2;
-                                m2DrivePowerfordrivetofoundation1 = 0.2;
-                                m3DrivePowerfordrivetofoundation1 = 0.2;
-                                m4DrivePowerfordrivetofoundation1 = -0.2;
-                        } else {
-                                m1DrivePowerfordrivetofoundation1 = 0;
-                                m2DrivePowerfordrivetofoundation1 = 0;
-                                m3DrivePowerfordrivetofoundation1 = 0;
-                                m4DrivePowerfordrivetofoundation1 = 0;
-                        }
-                        if (dpadLeft) {
-                                m1DrivePowerfordrivetofoundation2 = -0.33;
-                                m2DrivePowerfordrivetofoundation2 = -0.33;
-                                m3DrivePowerfordrivetofoundation2 = 0.33;
-                                m4DrivePowerfordrivetofoundation2 = 0.33;
-                        } else {
-                                m1DrivePowerfordrivetofoundation2 = 0;
-                                m2DrivePowerfordrivetofoundation2 = 0;
-                                m3DrivePowerfordrivetofoundation2 = 0;
-                                m4DrivePowerfordrivetofoundation2 = 0;
-                        }
-                        if (dpadRight) {
-                                m1DrivePowerfordrivetofoundation22 = 0.33;
-                                m2DrivePowerfordrivetofoundation22 = 0.33;
-                                m3DrivePowerfordrivetofoundation22 = -0.33;
-                                m4DrivePowerfordrivetofoundation22 = -0.33;
-                        } else {
-                                m1DrivePowerfordrivetofoundation22 = 0;
-                                m2DrivePowerfordrivetofoundation22 = 0;
-                                m3DrivePowerfordrivetofoundation22 = 0;
-                                m4DrivePowerfordrivetofoundation22 = 0;
-                        }
-
 
                         telemetry.addData("Status:", "Run Time: " + runtime.toString());
                         telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());

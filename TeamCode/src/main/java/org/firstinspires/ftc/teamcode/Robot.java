@@ -24,7 +24,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -42,7 +41,6 @@ public abstract class Robot extends LinearOpMode {
     protected DcMotor m2Drive = null;
     protected DcMotor m3Drive = null;
     protected DcMotor m4Drive = null;
-    protected DistanceSensor distanceSensorForward;
     private String log = "";
 
     // Initialization of connected devices
@@ -51,7 +49,6 @@ public abstract class Robot extends LinearOpMode {
         m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
         m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
         m4Drive = hardwareMap.get(DcMotor.class, "m4 drive");
-        distanceSensorForward = hardwareMap.get(DistanceSensor.class,"distanceSensor forward");
         m1Drive.setDirection(DcMotor.Direction.FORWARD);
         m2Drive.setDirection(DcMotor.Direction.FORWARD);
         m3Drive.setDirection(DcMotor.Direction.FORWARD);

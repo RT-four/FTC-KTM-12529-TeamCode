@@ -25,7 +25,6 @@ import org.firstinspires.ftc.teamcode.Vision.EasyOpenCVVision;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 
 @Autonomous(name = "AutoEasyOpenCV", group = "AutoOP")
 public class AutoEasyOpenCV extends Robot {
@@ -36,7 +35,6 @@ public class AutoEasyOpenCV extends Robot {
     @Override
     public void runOpMode() {
         initHW(hardwareMap);
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)distanceSensorForward;
 
         // Camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -58,44 +56,21 @@ public class AutoEasyOpenCV extends Robot {
             telemetry.clear();
             telemetry.addData("Number of rings ", pipeline.position);
             telemetry.update();
-//                // generic DistanceSensor methods.
-//                telemetry.addData("deviceName",distanceSensorForward.getDeviceName() );
-//                telemetry.addData("range", String.format("%.01f m", distanceSensorForward.getDistance(DistanceUnit.METER)));
-//
-//
-//                // Rev2mDistanceSensor specific methods.
-//                telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
-//                telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
-//
-//                telemetry.update();
 
             //Voltage regulation depending on the battery charge level
             double voltage = BatteryVoltage();
             double koeff = 13.0 / voltage;
             koeff = Math.pow(koeff, 1.25);
-            setMotorsPowerTimed(-0.5 * koeff, 0.5 * koeff, 0.5 * koeff, -0.5 * koeff, 1000);
-            while ((int)distanceSensorForward.getDistance(DistanceUnit.CM)>(int)50){
-                m1Drive.setPower(-0.2);
-                m2Drive.setPower(0.2);
-                m3Drive.setPower(0.2);
-                m4Drive.setPower(-0.2);
-
-                telemetry.addData("Distance to the wall: ", String.format("%.01f cm", distanceSensorForward.getDistance(DistanceUnit.CM)));
-
-                telemetry.update();
-            }
-            chassisStopMovement();
-
             // The choice of the direction of movement depending on the number of rings
-//            if (pipeline.position == EasyOpenCVVision.RingPosition.FOUR) {
-//                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
-//            }
-//            if (pipeline.position == EasyOpenCVVision.RingPosition.ONE) {
-//                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
-//            }
-//            if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
-//                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
-//            }
+            if (pipeline.position == EasyOpenCVVision.RingPosition.FOUR) {
+                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
+            }
+            if (pipeline.position == EasyOpenCVVision.RingPosition.ONE) {
+                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
+            }
+            if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
+                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
+            }
         }
     }
 }
