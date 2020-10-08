@@ -6,25 +6,18 @@ This autonomy is the main one. She processes the number of rings and travels alo
 Our team wishes you all the best for the upcoming tournament.
 All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
 
-Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky (VK: https://vk.com/dafter_play))
 */
 
 package org.firstinspires.ftc.teamcode.AutoOPs;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-
 import org.firstinspires.ftc.teamcode.Vision.EasyOpenCVVision;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 @Autonomous(name = "AutoEasyOpenCV", group = "AutoOP")
 public class AutoEasyOpenCV extends Robot {

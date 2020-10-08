@@ -6,7 +6,7 @@ This code is written to debug the operation of motors.
 Our team wishes you all the best for the upcoming tournament.
 All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
 
-Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky (VK: https://vk.com/dafter_play))
 */
 package org.firstinspires.ftc.teamcode.AutoOPs;
 

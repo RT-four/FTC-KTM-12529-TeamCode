@@ -6,45 +6,39 @@ This code is written as a class from which the rest must inherit, to gain access
 Our team wishes you all the best for the upcoming tournament.
 All versions of the code starting from 2020 you can see here: https://github.com/RT-four/FTC-KTM-12529-TeamCode
 
-Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky)
+Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky (VK: https://vk.com/dafter_play))
 */
 package org.firstinspires.ftc.teamcode;
 
-// Technical imports
-
-import android.graphics.Color;
-
-import com.qualcomm.hardware.bosch.BNO055IMU;
+// Major imports
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+// Hardware imports
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-//import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-
-// Navigation imports
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+// Navigation imports (for angels)
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
+// Other classes inherit from this class
 public abstract class Robot extends LinearOpMode {
+    // Variables for motor chassis
     protected DcMotor m1Drive = null;
     protected DcMotor m2Drive = null;
     protected DcMotor m3Drive = null;
     protected DcMotor m4Drive = null;
+    // Variables for navigation
+    protected BNO055IMU imu;
+    protected Orientation angles;
+    // Variable for logs
     private String log = "";
 
     // Initialization of connected devices
     protected void initHW(HardwareMap hardwareMap) throws RuntimeException {
+        // Chassis motor settings
         m1Drive = hardwareMap.get(DcMotor.class, "m1 drive");
         m2Drive = hardwareMap.get(DcMotor.class, "m2 drive");
         m3Drive = hardwareMap.get(DcMotor.class, "m3 drive");
@@ -57,6 +51,20 @@ public abstract class Robot extends LinearOpMode {
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // Navigation settings (for angels)
+        // Settings parameters for imu
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
         telemetry.clear();
         telemetry.addLine("HardwareMap initialization complete");
         telemetry.update();
@@ -109,7 +117,6 @@ public abstract class Robot extends LinearOpMode {
         }
         chassisStopMovement();
     }
-
     // All for logs
     protected void log(String WhatToSave, Double Value) {
         log += WhatToSave + ": " + Value + "\n";
