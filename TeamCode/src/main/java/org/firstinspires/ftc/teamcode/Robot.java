@@ -51,6 +51,7 @@ public abstract class Robot extends LinearOpMode {
         m2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m3Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m4Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Navigation settings (for angels)
         // Settings parameters for imu
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -60,15 +61,15 @@ public abstract class Robot extends LinearOpMode {
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
+        // Setting imu settings
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
+        // Displaying information about loading HardwereMap
         telemetry.clear();
         telemetry.addLine("HardwareMap initialization complete");
         telemetry.update();
-
     }
 
     // Protection against negative voltage values
@@ -117,6 +118,7 @@ public abstract class Robot extends LinearOpMode {
         }
         chassisStopMovement();
     }
+
     // All for logs
     protected void log(String WhatToSave, Double Value) {
         log += WhatToSave + ": " + Value + "\n";
