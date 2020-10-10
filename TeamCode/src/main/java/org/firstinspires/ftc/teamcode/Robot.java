@@ -11,6 +11,7 @@ Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky (VK: https://vk.
 package org.firstinspires.ftc.teamcode;
 
 // Major imports
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 // Hardware imports
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -19,6 +20,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 // Navigation imports (for angels)
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
@@ -35,6 +40,8 @@ public abstract class Robot extends LinearOpMode {
     protected Orientation angles;
     // Variable for logs
     private String log = "";
+
+    private final double MECHANICAL_CONSTRACTION_CORRECTION = 3;
 
     // Initialization of connected devices
     protected void initHW(HardwareMap hardwareMap) throws RuntimeException {
@@ -102,6 +109,38 @@ public abstract class Robot extends LinearOpMode {
         chassisStopMovement();
     }
 
+    protected void setMotorsPowerCorrected(double m1_power, double m2_power, double m3_power, double m4_power, short angle, long ms) {
+        double time1 = getRuntime();
+        double time2 = getRuntime();
+        while (time2 - time1 < ms) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double powerCorrection;
+//            if (Math.abs(angle - angles.firstAngle) > 1) {
+                powerCorrection=(angle - angles.firstAngle)/15;
+                powerCorrection = Math.signum(powerCorrection) * (0.9 * Math.pow(Math.abs(powerCorrection), 2) + 0.1);
+//            } else {
+//                powerCorrection=0;
+//            }
+            double max = Math.max(Math.max(m1_power, m2_power-powerCorrection), Math.max(m3_power, m4_power-powerCorrection));
+            if (max >= 1) {
+                m1Drive.setPower(m1_power / max);
+                m2Drive.setPower((m2_power-powerCorrection) / max);
+                m3Drive.setPower(m3_power / max);
+                m4Drive.setPower((m4_power-powerCorrection) / max);
+            } else {
+                m1Drive.setPower(m1_power);
+                m2Drive.setPower(m2_power-powerCorrection);
+                m3Drive.setPower(m3_power);
+                m4Drive.setPower(m4_power-powerCorrection);
+            }
+            time2 = getRuntime();
+            telemetry.addData("Angle:", angles.firstAngle);
+            telemetry.addData("Motor voltage:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());
+            telemetry.update();
+        }
+        chassisStopMovement();
+    }
+
     // Setting certain values for motors for a while with the output of the values in telemetry
     // Warning: possible slight error in time, use only for debugging
     protected void setMotorsPowerTimedDebug(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
@@ -123,9 +162,11 @@ public abstract class Robot extends LinearOpMode {
     protected void log(String WhatToSave, Double Value) {
         log += WhatToSave + ": " + Value + "\n";
     }
+
     protected void log(String WhatToSave) {
         log += WhatToSave + "\n";
     }
+
     protected String printLog() {
         return log;
     }

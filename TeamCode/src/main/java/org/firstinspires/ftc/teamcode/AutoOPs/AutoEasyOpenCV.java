@@ -10,8 +10,10 @@ Directed by RT-4(Philipp Vasiliev) and Dafter(Daniil Simonovsky (VK: https://vk.
 */
 
 package org.firstinspires.ftc.teamcode.AutoOPs;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -56,14 +58,17 @@ public class AutoEasyOpenCV extends Robot {
             koeff = Math.pow(koeff, 1.25);
             // The choice of the direction of movement depending on the number of rings
             if (pipeline.position == EasyOpenCVVision.RingPosition.FOUR) {
-                setMotorsPowerTimed(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1600);
+                setMotorsPowerCorrected(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, (short)0, 5000);
             }
             if (pipeline.position == EasyOpenCVVision.RingPosition.ONE) {
-                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
+                setMotorsPowerCorrected(-0.4 * koeff, 0.4 * koeff, 0.4 * koeff, -0.4 * koeff, (short)0, 5000);
+//                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
             }
             if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
-                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
+                setMotorsPowerCorrected(-0.5 * koeff, 0.5 * koeff, 0.5 * koeff, -0.5 * koeff, (short)3, 10000);
+//                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
             }
         }
+
     }
 }
