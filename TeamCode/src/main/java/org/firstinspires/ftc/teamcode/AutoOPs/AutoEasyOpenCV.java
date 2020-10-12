@@ -65,7 +65,7 @@ public class AutoEasyOpenCV extends Robot {
 //                setMotorsPowerTimed(-0.2 * koeff, 0.2 * koeff, -0.2 * koeff, 0.2 * koeff, 1650);
             }
             if (pipeline.position == EasyOpenCVVision.RingPosition.NONE) {
-                setMotorsPowerCorrected(-0.5 * koeff, 0.5 * koeff, 0.5 * koeff, -0.5 * koeff, (short)3, 10000);
+                setMotorsPowerCorrected(-0.5 * koeff, 0.5 * koeff, 0.5 * koeff, -0.5 * koeff, (short)0, 10000);
 //                setMotorsPowerTimed(0.4 * koeff, -0.4 * koeff, 0.4 * koeff, -0.4 * koeff, 1500);
             }
         }

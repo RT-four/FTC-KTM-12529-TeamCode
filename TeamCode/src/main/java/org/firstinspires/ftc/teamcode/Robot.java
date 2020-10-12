@@ -115,12 +115,9 @@ public abstract class Robot extends LinearOpMode {
         while (time2 - time1 < ms) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double powerCorrection;
-//            if (Math.abs(angle - angles.firstAngle) > 1) {
                 powerCorrection=(angle - angles.firstAngle)/15;
                 powerCorrection = Math.signum(powerCorrection) * (0.9 * Math.pow(Math.abs(powerCorrection), 2) + 0.1);
-//            } else {
-//                powerCorrection=0;
-//            }
+
             double max = Math.max(Math.max(m1_power, m2_power-powerCorrection), Math.max(m3_power, m4_power-powerCorrection));
             if (max >= 1) {
                 m1Drive.setPower(m1_power / max);
@@ -142,18 +139,16 @@ public abstract class Robot extends LinearOpMode {
     }
 
     // Setting certain values for motors for a while with the output of the values in telemetry
-    // Warning: possible slight error in time, use only for debugging
     protected void setMotorsPowerTimedDebug(double m1_power, double m2_power, double m3_power, double m4_power, long ms) {
-        int time = 0;
+        double time1 = getRuntime(), time2 = getRuntime();
         m1Drive.setPower(m1_power);
         m2Drive.setPower(m2_power);
         m3Drive.setPower(m3_power);
         m4Drive.setPower(m4_power);
-        while (time <= ms) {
+        while (time1 - time2 < ms) {
+            time2 = getRuntime();
             telemetry.addData("Motors:", "m1Drive (%.2f), m2Drive (%.1f), m3Drive (%.2f), m4Drive (%.2f)", m1Drive.getPower(), m2Drive.getPower(), m3Drive.getPower(), m4Drive.getPower());
             telemetry.update();
-            sleep(1);
-            time += 1;
         }
         chassisStopMovement();
     }
